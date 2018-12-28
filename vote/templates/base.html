@@ -2,6 +2,12 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
+        <!-- BASE CSS-->
+        {% load static %}
+        <link rel="stylesheet" href="base.css">
+        {% block extended_css %}
+        {% endblock %}
+
         <title>{{ title }}</title>
     </head>
 
@@ -9,6 +15,11 @@
         {% include "menu.html" %}
 
         {% block content %}
+        {% endblock %}
+
+        <!--BASE JS-->
+
+        {% block extended_js %}
         {% endblock %}
     </body>
 </html>

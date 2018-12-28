@@ -7,7 +7,6 @@ def get_base_context():
     context = {
         'menu': [
             {'link': '/', 'text': 'Главная'},
-            {'link': '/test', 'text': 'Несуществующая'},
         ],
         'current_time': datetime.datetime.now(),
     }
