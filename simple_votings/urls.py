@@ -19,6 +19,6 @@ from django.urls import path
 from vote import views
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index_page),
+    path('admin/', admin.site.urls, name="admin"),
+    path('', views.index_page, name="index"),
 ]
