@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Vote
+from .models import VoteModel
 
 
 # Define the admin class
@@ -9,4 +9,4 @@ class VoteAdmin(admin.ModelAdmin):
 
 # Register your models here.
 
-admin.site.register(Vote, VoteAdmin)
+admin.site.register(VoteModel, VoteAdmin)
