@@ -10,10 +10,10 @@ def get_base_context(request):
     auth = []
 
     if request.user.is_authenticated:
-        auth.append({'link': '/logout', 'text': 'Выйти'})
+        auth.append({'link': 'logout/', 'text': 'Выйти'})
     else:
-        auth.append({'link': '/login', 'text': 'Войти'})
-        auth.append({'link': '/signin', 'text': 'Регистрация'})
+        auth.append({'link': '/login/', 'text': 'Войти'})
+        auth.append({'link': '/signin/', 'text': 'Регистрация'})
 
     context = {
         'menu': [
@@ -48,24 +48,34 @@ def create_vote(request):
 
 def signin(request):
     context = get_base_context(request)
-
     context['errors'] = []
-
     if request.method == 'POST':
         f = SignInForm(request.POST)
 
         if f.is_valid():
             u_n = f.data['user_name']
+            u_fn = f.data['user_fname']
+            u_ln = f.data['user_lname']
             u_em = f.data['user_email']
             u_pw = f.data['password']
             u_pw_c = f.data['password_conf']
 
-            if u_pw == u_pw_c:
-                new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw)
-                new_user.save()
-                return HttpResponseRedirect('/login/')
+            user_exists = 0
+            users = User.objects.all()
+            for user in users:
+                if user.get_username() == u_n:
+                    user_exists = 1
+                    break
+
+            if not user_exists:
+                if u_pw == u_pw_c:
+                    new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw, first_name=u_fn, last_name=u_ln)
+                    new_user.save()
+                    return HttpResponseRedirect('/login/')
+                else:
+                    context['errors'].append("Введенные пароли не совпадают")
             else:
-                context['errors'].append("Введенные пароли не совпадают")
+                context['errors'].append("Пользователь с таким логином уже существует")
 
             context['form'] = f
         else:

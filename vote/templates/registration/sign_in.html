@@ -13,13 +13,18 @@
     {% endfor %}
     <form method="POST">
         {% csrf_token %}
-        {{ form.user_name.label }}
-        {{ form.user_name }}
+        {{ form.user_fname.label }}
+        {{ form.user_fname }}
+        <br><br>
+        {{ form.user_lname.label }}
+        {{ form.user_lname }}
         <br><br>
         {{ form.user_email.label }}
         {{ form.user_email }}
         <br><br>
-        {{ pw_error }}
+        {{ form.user_name.label }}
+        {{ form.user_name }}
+        <br><br>
         {{ form.password.label }}
         {{ form.password }}
         <br><br>
