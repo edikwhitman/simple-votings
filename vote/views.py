@@ -1,5 +1,6 @@
 import datetime
 
+from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm
 from django.contrib.auth.models import User
@@ -62,6 +63,7 @@ def signin(request):
             if u_pw == u_pw_c:
                 new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw)
                 new_user.save()
+                return HttpResponseRedirect('/login/')
             else:
                 context['errors'].append("Введенные пароли не совпадают")
 

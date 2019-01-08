@@ -11,7 +11,7 @@
             </font>
         </p>
     {% endfor %}
-    <form action="/login/" method="POST">
+    <form method="POST">
         {% csrf_token %}
         {{ form.user_name.label }}
         {{ form.user_name }}
