@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Регистрация</h1>
+    <hr>
+    {% for error in errors %}
+        <p>
+            <font color="red">
+            {{ error }}
+            </font>
+        </p>
+    {% endfor %}
+    <form action="signin" method="POST">
+        {% csrf_token %}
+        {{ form.user_name.label }}
+        {{ form.user_name }}
+        <br><br>
+        {{ form.user_email.label }}
+        {{ form.user_email }}
+        <br><br>
+        {{ pw_error }}
+        {{ form.password.label }}
+        {{ form.password }}
+        <br><br>
+        {{ form.password_conf.label }}
+        {{ form.password_conf }}
+        <br><br>
+        <input type="submit" value="Зарегистрироваться">
+
+    </form>
+{% endblock %}
