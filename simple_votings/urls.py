@@ -23,7 +23,7 @@ from vote import views
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('', views.index_page, name="index"),
-    path('login', auth_views.LoginView.as_view()),
-    path('logout', auth_views.LogoutView.as_view()),
-    path('signin', views.signin),
+    path('login/', auth_views.LoginView.as_view()),
+    path('logout/', auth_views.LogoutView.as_view()),
+    path('signin/', views.signin),
 ]

@@ -3,7 +3,7 @@
 {% block content %}
     <h1>Авторизация</h1>
     <hr>
-    <form action="/login", method="POST">
+    <form method="POST">
         {% csrf_token %}
 
         <label for="id_username">Имя пользователя:</label>
