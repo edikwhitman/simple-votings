@@ -21,3 +21,11 @@ class VoteModel(models.Model):
 
     def __str__(self):
         return self.question
+
+
+class ReportModel(models.Model):
+    link = models.CharField(max_length=100, default='')
+    text = models.CharField(max_length=300, default='')
+
+    def _str_(self):
+        return self.text[:10]
