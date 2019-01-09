@@ -2,8 +2,10 @@ import datetime
 
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from vote.forms import SignInForm
+from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
+
+from vote.models import ReportModel
 
 
 def get_base_context(request):
@@ -18,6 +20,8 @@ def get_base_context(request):
     context = {
         'menu': [
             {'link': '/', 'text': 'Главная'},
+            {'link': '/create_vote', 'text': 'Создание голосования'},
+            {'link': '/report', 'text': 'Пожаловаться'},
         ],
         'current_time': datetime.datetime.now(),
         'auth': auth,
@@ -32,7 +36,7 @@ def index_page(request):
     return render(request, 'index.html', context)
 
 
-def vote(request):
+def vote(request, pk=''):
     context = get_base_context(request)
     context['title'] = 'Голосование'
 
@@ -48,6 +52,7 @@ def create_vote(request):
 
 def signin(request):
     context = get_base_context(request)
+    context['title'] = 'Регистрация'
     context['errors'] = []
     if request.method == 'POST':
         f = SignInForm(request.POST)
@@ -69,7 +74,8 @@ def signin(request):
 
             if not user_exists:
                 if u_pw == u_pw_c:
-                    new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw, first_name=u_fn, last_name=u_ln)
+                    new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw,
+                                                        first_name=u_fn, last_name=u_ln)
                     new_user.save()
                     return HttpResponseRedirect('/login/')
                 else:
@@ -85,3 +91,26 @@ def signin(request):
         context['form'] = f
 
     return render(request, 'registration/sign_in.html', context)
+
+
+def report(request):
+    context = get_base_context(request)
+    context['title'] = 'Создание жалобы'
+
+    context['success'] = False
+
+    if request.method == 'POST':
+        f = ReportForm(request.POST)
+
+        if f.is_valid():
+            new_report = ReportModel(text=f.data['text'], link=f.data['link'])
+            new_report.save()
+
+            f = ReportForm()
+            context['success'] = True
+    else:
+        f = ReportForm()
+
+    context['form'] = f
+
+    return render(request, 'report.html', context)

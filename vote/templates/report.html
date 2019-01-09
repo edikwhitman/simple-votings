@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Отправьте вашу жалобу здесь!</h1>
+
+{% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <div class="error" style="color: red">
+                    <strong>{{ error|escape }}</strong>
+                </div>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <div class="error" style="color: red">
+                <strong>{{ error|escape }}</strong>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+<form method="POST">
+    {% csrf_token %}
+    {{ form.link.label }}
+    {{ form.link }}
+    <br><br>
+    {{ form.text.label }}
+    {{ form.text }}
+    <br><br>
+    <input type="submit" value="Отправить">
+
+</form>
+
+{% if success %}
+<p style="color: green">Жалоба создана</p>
+{% endif %}
+
+{% endblock %}
