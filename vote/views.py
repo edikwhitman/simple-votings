@@ -12,10 +12,10 @@ def get_base_context(request):
     auth = []
 
     if request.user.is_authenticated:
-        auth.append({'link': 'logout/', 'text': 'Выйти'})
+        auth.append({'link': '/logout', 'text': 'Выйти'})
     else:
-        auth.append({'link': '/login/', 'text': 'Войти'})
-        auth.append({'link': '/signin/', 'text': 'Регистрация'})
+        auth.append({'link': '/login', 'text': 'Войти'})
+        auth.append({'link': '/sign_up', 'text': 'Регистрация'})
 
     context = {
         'menu': [
@@ -50,7 +50,7 @@ def create_vote(request):
     return render(request, 'create_vote.html', context)
 
 
-def signin(request):
+def sign_up(request):
     context = get_base_context(request)
     context['title'] = 'Регистрация'
     context['errors'] = []
