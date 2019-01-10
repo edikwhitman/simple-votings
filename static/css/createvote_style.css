@@ -1,0 +1,79 @@
+body{
+    background-color: #232323;
+}
+#title{
+	color: #fff;
+	font-size: 36px;
+	padding-top: 30px;
+}
+
+.p_label{
+	margin-top: 20px;
+	color: #fff;
+	font-size: 24px;
+	width: 100%;
+}
+
+.question_field, .question_field:focus{
+	border: 3px solid #d33342;
+	border-radius: 10px;
+	background-color: transparent;
+	height: 50px;
+	color: #fff;
+	font-size: 20px;
+	width: 100%;
+	transition: 1s;
+}
+
+.btn-secondary.active:not(:disabled):not(.disabled), .btn-secondary:active:not(:disabled):not(.disabled), .show > .btn-secondary.dropdown-toggle{
+	background-color: #72bb53;
+	border-color: #72bb53;
+	box-shadow: none;
+}
+
+.btn-secondary{
+	background-color: transparent;
+	border: 1px solid #72bb53;
+	float: left;
+}
+
+.btn-secondary:hover{
+	background-color: #f7f6f6;
+	color: #72bb53;
+	border: 1px solid #72bb53;
+}
+
+.sub_container{
+	width: 580px;
+	margin: 0 auto;
+}
+
+.btn_delete{
+	width: 50px;
+	height: 50px;
+	float: right;
+}
+
+.answers_fields, .answers_fields:focus{
+	width: 550px;
+}
+
+.answers_elements{
+	margin-bottom: 15px;
+}
+
+.fa-trash{
+	font-size: 18pt;
+}
+
+form{
+	width: 100%;
+}
+
+#btn_add, #btn_add:focus, #btn_save, #btn_save:focus{
+	background-color: #72bb53;
+	border: 1px solid #72bb53;
+	box-shadow: none;
+	font-size: 18pt;
+    transition: 1.2s;
+}
