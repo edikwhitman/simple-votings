@@ -6,6 +6,7 @@ from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
 
 from vote.models import ReportModel
+from vote.models import VoteModel
 
 
 def get_base_context(request):
@@ -42,11 +43,21 @@ def vote(request, pk=''):
 
     return render(request, 'vote.html', context)
 
+def fill_votes_db(question, options, type):
+    db = VoteModel(question=question, options=options, type=type)
+    db.save()
 
 def create_vote(request):
     context = get_base_context(request)
     context['title'] = 'Создание голосования'
-
+    if request.is_ajax():
+        print("Get Post Request")
+        question = request.POST.get('question', 0)
+        options = request.POST.get('options', 0)
+        type = request.POST.get('type', 0)
+        fill_votes_db(question, options, type)
+    else:
+        print("No Request")
     return render(request, 'create_vote.html', context)
 
 

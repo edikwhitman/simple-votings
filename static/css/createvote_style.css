@@ -14,7 +14,7 @@ body{
 	width: 100%;
 }
 
-.question_field, .question_field:focus{
+.text_field, .text_field:focus{
 	border: 3px solid #d33342;
 	border-radius: 10px;
 	background-color: transparent;

@@ -26,14 +26,14 @@
             </div>
         </div>
         <div class="row">
-            <form>
+            <form method="post" id = "poll-form">
                 <div class="form-group">
-                    <label for="formGroupExampleInput" class="p_label">Question: </label>
-                    <input type="text" class="question_field form-control" id="formGroupExampleInput"
+                    <label for="formGroupQuestionInput" class="p_label">Question: </label>
+                    <input type="text" class="text_field form-control" id="question_field"
                            placeholder="Specify the question">
                 </div>
                 <div class="form-group clearfix">
-                    <label for="formGroupExampleInput" class="p_label types_label float-left">Type of
+                    <label for="formGroupQuestionInput" class="p_label types_label float-left">Type of
                         responses: </label>
                     <br>
                     <div class="btn-group btn-group-toggle float-left" data-toggle="buttons">
@@ -49,19 +49,19 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    <label for="formGroupExampleInput" class="p_label">Answers: </label>
+                    <label for="formGroupQuestionInput" class="p_label">Answers: </label>
                     <div id="answer_items">
                         <div id="answer_element_0">
                             <input type="text"
-                                   class="answers_fields question_field form-control float-left answers_elements"
-                                   id="formGroupExampleInput" placeholder="Specify the answer">
+                                   class="answers_fields text_field form-control float-left answers_elements"
+                                   id="formGroupAnswerInput" placeholder="Specify the answer">
                             <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_0"
                                     delete_number="0"><i class="fas fa-trash"></i></button>
                         </div>
                         <div id="answer_element_1">
                             <input type="text"
-                                   class="answers_fields question_field form-control float-left answers_elements"
-                                   id="formGroupExampleInput" placeholder="Specify the answer">
+                                   class="answers_fields text_field form-control float-left answers_elements"
+                                   id="formGroupAnswerInput" placeholder="Specify the answer">
                             <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_0"
                                     delete_number="0"><i class="fas fa-trash"></i></button>
                         </div>
@@ -69,7 +69,7 @@
                 </div>
                 <div class="form-group">
                     <button type="button" class="btn btn-danger" id="btn_add"><i class="fas fa-plus"></i></button>
-                    <button type="button" class="btn btn-danger" id="btn_save"><i class="fas fa-save"></i></button>
+                    <button type="submit" class="btn btn-danger" id="btn_save"><i class="fas fa-save"></i></button>
                 </div>
             </form>
         </div>
@@ -104,6 +104,38 @@
             id_count += 1;
         }
 
+        $(document).ready(function() {
+               $("#poll-form").submit(function(event){
+                    let question = document.getElementById("question_field").value;
+                    let options = document.getElementsByClassName("answers_fields");
+                    let str_options = "";
+                    for(let i = 0; i < options.length; i++) {
+                        str_options += options[i].value
+                        if(i != options.length-1) str_options += String.fromCharCode(6);
+                    }
+                    let type = -1;
+                    var radios = document.getElementsByName('options');
+                    for (let i = 0; i < radios.length; i++) {
+                        if (radios[i].type == "radio" && radios[i].checked) {
+                            type = i;
+                            break;
+                        }
+                    }
+                    $.ajax({
+                         type:"POST",
+                         url:"/create_vote/",
+                         data: {
+                                 csrfmiddlewaretoken: '{{ csrf_token }}',
+                                'question': question,
+                                'options': str_options,
+                                'type': ['o','s','d'][type],
+                                }
+                    });
+                    alert("Данные успешно занесены в БД");
+                    return false;
+               });
+            });
+
         function scrollDown(endPos, i) {
             setTimeout(function () {
                 if (parseInt(endPos) < $(document).height()) {
@@ -116,7 +148,7 @@
         }
 
         setInterval(function () {
-            fields = document.getElementsByClassName("question_field");
+            fields = document.getElementsByClassName("text_field");
             for (let i = 0; i < fields.length; i++) {
                 if (fields[i].value.length == 0) {
                     fields[i].style.border = "3px solid #d33342";
