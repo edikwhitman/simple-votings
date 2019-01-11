@@ -1,6 +1,8 @@
+import datetime
 import uuid
 
 from django.db import models
+
 
 # Create your models here.
 
@@ -18,6 +20,11 @@ class VoteModel(models.Model):
     )
 
     type = models.CharField(max_length=1, choices=TYPES, default='o')
+
+    closing_poll_datetime = models.DateTimeField(default=datetime.datetime.now() + datetime.timedelta(days=1),
+                                                 blank=True)
+
+    edited = models.BooleanField(default=False)
 
     def __str__(self):
         return self.question
