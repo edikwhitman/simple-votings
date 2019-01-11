@@ -28,7 +28,6 @@ class VoteModel(models.Model):
 
 
 class ReportModel(models.Model):
-    creator = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
     link = models.CharField(max_length=100, default='')
     text = models.CharField(max_length=300, default='')
 
