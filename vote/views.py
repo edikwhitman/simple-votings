@@ -1,5 +1,6 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm
@@ -93,6 +94,7 @@ def sign_up(request):
     return render(request, 'registration/sign_in.html', context)
 
 
+@login_required
 def report(request):
     context = get_base_context(request)
     context['title'] = 'Создание жалобы'
@@ -103,7 +105,7 @@ def report(request):
         f = ReportForm(request.POST)
 
         if f.is_valid():
-            new_report = ReportModel(text=f.data['text'], link=f.data['link'])
+            new_report = ReportModel(text=f.data['text'], link=f.data['link'], author=request.user)
             new_report.save()
 
             f = ReportForm()
@@ -114,3 +116,14 @@ def report(request):
     context['form'] = f
 
     return render(request, 'report.html', context)
+
+
+@login_required
+def report_status(request):
+    context = get_base_context(request)
+    context['title'] = 'Статус жалобы'
+
+    context['reports'] = ReportModel.objects.filter(author=request.user)
+
+    return render(request, 'report_status.html', context)
+
