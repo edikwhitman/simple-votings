@@ -26,6 +26,7 @@ urlpatterns = [
     path('report/', views.report, name="report"),
     path('create_vote/', views.create_vote, name="create_vote"),
     path('vote/', views.vote),
+    path('search_vote/', views.search_page, name="search_vote"),
     url(r'^vote/(?P<pk>[\w\d]+)$', views.vote, name='vote'),
 
     path('login/', auth_views.LoginView.as_view(), name="login"),
