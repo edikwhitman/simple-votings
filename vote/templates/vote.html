@@ -10,8 +10,8 @@
 		<header>
 			<div class="header-z">Simple Votings</div>
 			<div class="header-b">
-				<button type="button" class="btn btn-outline-light">create poll</button>
-				<button type="button" class="btn btn-outline-light">Log in</button>
+				<a href="{% url 'create_vote' %}" class="btn btn-outline-light">create poll</a>
+				<a href="{% url 'login' %}" class="btn btn-outline-light">Log in</a>
 			</div>
 		</header>
 		<div class="SV">
@@ -51,7 +51,7 @@
 		</div>
 		<footer>
 			<div class="footer-c">
-				<button type="button" class="btn btn-outline-danger">report a poll</button>
+				<button type="button" onclick="window.location='{% url 'report' %}'" class="btn btn-outline-danger">report a poll</button>
 				<a href="#">support</a>
 				<a href="#">about</a>
 				<a href="#">contact</a>
