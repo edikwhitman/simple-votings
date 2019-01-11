@@ -3,14 +3,6 @@
 {% block extended_css %}
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <script src="https://code.jquery.com/jquery-3.3.1.js"
-            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
-            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
-            crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
           integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
     <link rel="stylesheet" href="/static/css/createvote_style.css">
@@ -19,7 +11,7 @@
 {% block content %}
     <div class="sub_container">
         <div class="row">
-            <div class="col text-center" id="title">
+            <div class="col text-center">
                 <h1 id="title">
                     Creating a poll
                 </h1>
@@ -28,12 +20,12 @@
         <div class="row">
             <form method="post" id = "poll-form">
                 <div class="form-group">
-                    <label for="formGroupQuestionInput" class="p_label">Question: </label>
+                    <label class = "p_label">Question: </label>
                     <input type="text" class="text_field form-control" id="question_field"
                            placeholder="Specify the question">
                 </div>
                 <div class="form-group clearfix">
-                    <label for="formGroupQuestionInput" class="p_label types_label float-left">Type of
+                    <label class="p_label types_label float-left">Type of
                         responses: </label>
                     <br>
                     <div class="btn-group btn-group-toggle float-left" data-toggle="buttons">
@@ -48,8 +40,18 @@
                         </label>
                     </div>
                 </div>
+
+
                 <div class="form-group">
-                    <label for="formGroupQuestionInput" class="p_label">Answers: </label>
+                    <label class = "p_label">Open to: </label>
+                    <label class="p_label float-left" style="width: 60px; margin-top: 7px;margin-right: 5px;">Date: </label>
+                    <input name="datetime" id="datepicker" type="date"  class="text_field form-control float-left" style="width: 200px;">
+                    <label class="p_label float-left" style="width: 60px; margin-left: 20px; margin-top: 7px; margin-right: 5px;">Time: </label>
+                    <input name="datetime" id="timepicker" type="time"  class="text_field form-control float-left" style="width: 150px;">
+                </div>
+
+                <div class="form-group">
+                    <label class="p_label">Answers: </label>
                     <div id="answer_items">
                         <div id="answer_element_0">
                             <input type="text"
@@ -62,8 +64,8 @@
                             <input type="text"
                                    class="answers_fields text_field form-control float-left answers_elements"
                                    id="formGroupAnswerInput" placeholder="Specify the answer">
-                            <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_0"
-                                    delete_number="0"><i class="fas fa-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_1"
+                                    delete_number="1"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
@@ -78,32 +80,16 @@
 
 
 {% block extended_js %}
-    <script type="text/javascript">
-        fields_count = document.getElementById("answer_items").children.length;
-        id_count = 1;
-        let elems;
-        if (!Element.prototype.remove) {
-            Element.prototype.remove = function remove() {
-                if (this.parentNode) {
-                    this.parentNode.removeChild(this);
-                }
-            };
-        }
-
-        btn_add.onclick = function add_new_answer_field() {
-            var scrolled = window.pageYOffset;
-            let child_elem = document.createElement("div");
-            scrollDown(scrolled, 1);
-
-            child_elem.id = "answer_element_" + String(id_count);
-            child_elem.innerHTML = document.getElementById("answer_items").children[0].innerHTML;
-            child_elem.children[1].setAttribute("delete_number", id_count);
-            child_elem.children[1].id = "del_btn_" + String(id_count);
-            answer_items.appendChild(child_elem);
-            fields_count += 1;
-            id_count += 1;
-        }
-
+    <script src="https://code.jquery.com/jquery-3.3.1.js"
+            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+            integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+            crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+            crossorigin="anonymous"></script>
+    <script src="/static/js/create_vote.js"></script>
+    <script>
         $(document).ready(function() {
                $("#poll-form").submit(function(event){
                     let question = document.getElementById("question_field").value;
@@ -135,40 +121,5 @@
                     return false;
                });
             });
-
-        function scrollDown(endPos, i) {
-            setTimeout(function () {
-                if (parseInt(endPos) < $(document).height()) {
-                    var y = parseInt(endPos) + 1 * parseInt(i);
-                    window.scroll(0, y); //Устанавливаем новую позицию вертикального скрола
-                    scrollDown(y, parseInt(i) + 2);//Рекурсивный вызов функции
-                }
-            }, 10);
-
-        }
-
-        setInterval(function () {
-            fields = document.getElementsByClassName("text_field");
-            for (let i = 0; i < fields.length; i++) {
-                if (fields[i].value.length == 0) {
-                    fields[i].style.border = "3px solid #d33342";
-                }
-                else {
-                    fields[i].style.border = "3px solid #72bb53";
-                }
-            }
-            elems = document.getElementsByClassName("btn_delete");
-            for (let i = 0; i < elems.length; i++) {
-                let e = elems[i];
-                e.onclick = function () {
-                    if (fields_count > 2) {
-                        el = document.getElementById("answer_element_" + String(e.getAttribute("delete_number")));
-                        el.remove();
-                        fields_count--;
-                    }
-                }
-            }
-        }, 200);
-
     </script>
 {% endblock %}
