@@ -3,6 +3,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
@@ -30,6 +31,18 @@ class ReportModel(models.Model):
     creator = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
     link = models.CharField(max_length=100, default='')
     text = models.CharField(max_length=300, default='')
+
+    STATUS = (
+        ('u', 'Unchecked'),
+        ('c', 'Checked'),
+    )
+
+    status = models.CharField(max_length=1, choices=STATUS, default='u')
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=''
+    )
 
     def _str_(self):
         return self.text[:10]

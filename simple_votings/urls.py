@@ -23,7 +23,10 @@ from vote import views
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('', views.index_page, name="index"),
+
     path('report/', views.report, name="report"),
+    path('report_status/', views.report_status, name="report_status"),
+
     path('create_vote/', views.create_vote, name="create_vote"),
     path('vote/', views.vote),
     path('search_vote/', views.search_page, name="search_vote"),
