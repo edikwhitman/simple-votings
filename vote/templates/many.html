@@ -1,68 +1,23 @@
-{% block js_for_vote %}
-	<script>
-		$(function () {
-			parameters = {
-				duration: 300
-			}
-			$('#XDXD').click(function () {
-				$('#XDXD').fadeOut(parameters);
-				$('#Sprite').css({'width': '32%'});
-				$('#Pepsi').css({'width': '47%'});
-				$('#Fanta').css({'width': '21%'});
-				$('h6#hide').css({'visibility':'visible'});
-			});
-		});
-	</script>
-{% endblock %}
-<h1>What do you prefer?</h1>
-<div class="kEk">
+{% for option in options %}
 	<div class="custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input" id="customCheck1">
-		<label class="custom-control-label" for="customCheck1"/>
+		{% if not done %}
+		<input type="checkbox" class="custom-control-input" id="customCheck{{ option.index }}">
+		<label class="custom-control-label" for="customCheck{{ option.index }}"></label>
+		{% endif %}
 		<div class="FIXED">
-			<h3>Sprite</h3>
+			<h3>{{ option.option }}</h3>
 		</div>
 	</div>
+
 	<div class="move">
-		<h6 id="hide" style="visibility: hidden">32%</h6>
+		<h6 class="hide" style="visibility: hidden">{{ option.percent }}%</h6>
 		<div class="normal">
 			<div class="progress">
-				<div class="progress-bar bg-success" role="progressbar" style="width: 70%" id="Sprite"></div>
+				<div class="progress-bar" role="progressbar" style="width: 70%" id="{{ option.index }}"></div>
 			</div>
 		</div>
 	</div>
-	<div class="custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input" id="customCheck2">
-		<label class="custom-control-label" for="customCheck2"/>
-		<div class="FIXED">
-			<h3>Pepsi</h3>
-		</div>
-	</div>
-	<div class="move">
-		<h6 id="hide" style="visibility: hidden">47%</h6>
-		<div class="normal">
-			<div class="progress">
-				<div class="progress-bar" role="progressbar" style="width: 70%" id="Pepsi"></div>
-			</div>
-		</div>
-	</div>
-	<div class="custom-control custom-checkbox">
-		<input type="checkbox" class="custom-control-input" id="customCheck3">
-		<label class="custom-control-label" for="customCheck3"/>
-		<div class="FIXED">
-			<h3>Fanta</h3>
-		</div>
-	</div>
-	<div class="move">
-		<h6 id="hide" style="visibility: hidden">21%</h6>
-		<div class="normal">
-			<div class="progress">
-				<div class="progress-bar bg-danger" role="progressbar" style="width: 70%" id="Fanta"></div>
-			</div>
-		</div>
-	</div>
-	<div class="btn-vote">
-		<button type="button" class="btn btn-outline-light" id="XDXD"><i class="fas fa-check"></i>   Vote</button>
-		<button type="button" class="btn btn-outline-light" id="XDXD">Share</button>
-	</div>
-</div>
+{% endfor %}
+{% if done %}
+	<script>c()</script>
+{% endif %}

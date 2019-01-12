@@ -9,6 +9,10 @@ from django.contrib.auth.models import User
 from vote.models import ReportModel, VoteModel, CheckedVotings
 
 
+def not_found(request):
+    return render(request, '404.html')
+
+
 def get_base_context(request):
     auth = []
 
@@ -38,11 +42,44 @@ def index_page(request):
     return render(request, 'index.html', context)
 
 
+@login_required
 def vote(request, pk=''):
     context = get_base_context(request)
     context['title'] = 'Голосование'
 
-    return render(request, 'vote.html', context)
+    context['done'] = False
+
+    if request.method == 'POST':
+        context['done'] = True
+
+    if pk:
+        if VoteModel.objects.filter(ref=pk):
+            v = VoteModel.objects.filter(ref=pk)[0]
+
+            options = v.options.split(';')
+            percents = list(map(int, v.vote_counts.split(';')))
+            options_sum = sum(percents)
+
+            x = 100
+            for i in range(len(percents)-1):
+                percents[i] = int(percents[i]/options_sum*100)
+                x -= percents[i]
+            percents[len(percents)-1] = x
+
+            options_fin = list()
+
+            for i in range(len(options)):
+                options_fin.append({'option': options[i], 'percent': percents[i], 'index': i+1})
+
+            context['options'] = options_fin
+            context['percents'] = percents
+            context['options_sum'] = options_sum
+            context['vote'] = v
+            return render(request, 'vote.html', context)
+        else:
+            return HttpResponseRedirect('/404/')
+    else:
+        return HttpResponseRedirect('/search_vote/')
 
 
 @login_required
@@ -178,6 +215,7 @@ def search_page(request):
     return render(request, 'search.html', context)
 
 
+@login_required
 def report_status(request):
     context = get_base_context(request)
     context['title'] = 'Статус жалобы'

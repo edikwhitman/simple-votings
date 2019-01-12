@@ -1,5 +1,4 @@
 import datetime
-import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
@@ -14,6 +13,7 @@ class VoteModel(models.Model):
     ref = models.CharField(max_length=500, default='')
     question = models.CharField(max_length=100, default='')
     options = models.CharField(max_length=500, default='')
+    vote_counts = models.CharField(max_length=500, default='0')
 
     TYPES = (
         ('o', 'One of many'),
@@ -49,5 +49,5 @@ class ReportModel(models.Model):
 
 class CheckedVotings(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)  # пользователь, просмотревший голосование
-    voting_id = models.ForeignKey(to=VoteModel, on_delete=models.CASCADE)  # голосование, которое пользователь просмотрел
+    voting_id = models.ForeignKey(to=VoteModel, on_delete=models.CASCADE)  # голосование, которое пользователь посмотрел
 

@@ -87,8 +87,8 @@ footer {
 	font-size: 25px;
 }
 
-#XDXD {
-	font-size: 20px;
+.vote_share {
+	font-size: 20px !important;
 }
 	
 .footer-c {

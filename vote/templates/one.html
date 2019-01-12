@@ -1,52 +1,23 @@
-{% block js_for_vote %}
-	<script>
-		$(function () {
-			parameters = {
-				duration: 300
-			}
-			$('.XDXD').click(function () {
-				$('.XDXD').fadeOut(parameters);
-				$('#PewDiePie').css({'width': '98%'});
-				$('#T-Series').css({'width': '2%'});
-				$('.hide').css({'visibility':'visible'});
-			});
-		});
-	</script>
-{% endblock %}
-<h1>PewDiePie or T-Series?</h1>
-<div class="kEk">
+{% for option in options %}
 	<div class="custom-control custom-radio">
-		<input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-		<label class="custom-control-label" for="customRadioInline1"></label>
+		{% if not done %}
+		<input type="radio" id="customRadioInline{{option.index}}" name="customRadioInline1" class="custom-control-input">
+		<label class="custom-control-label" for="customRadioInline{{option.index}}"></label>
+		{% endif %}
 		<div class="FIXED">
-			<h3>PewDiePie</h3>
+			<h3>{{ option.option }}</h3>
 		</div>
 	</div>
+
 	<div class="move">
-		<h6 class="hide" style="visibility: hidden">98%</h6>
+		<h6 class="hide" style="visibility: hidden">{{ option.percent }}%</h6>
 		<div class="normal">
 			<div class="progress">
-				<div class="progress-bar" role="progressbar" style="width: 70%" id="PewDiePie"></div>
+				<div class="progress-bar" role="progressbar" style="width: 70%" id="{{ option.index }}"></div>
 			</div>
 		</div>
 	</div>
-	<div class="custom-control custom-radio custom-control-inline">
-		<input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-		<label class="custom-control-label" for="customRadioInline2"></label>
-		<div class="FIXED">
-			<h3>T-Series</h3>
-		</div>
-	</div>
-	<div class="move">
-		<h6 class="hide" style="visibility: hidden">2%</h6>
-		<div class="normal">
-			<div class="progress">
-				<div class="progress-bar bg-danger" role="progressbar" style="width: 70%" id="T-Series"></div>
-			</div>
-		</div>
-	</div>
-	<div class="btn-vote">
-		<button type="button" class="btn btn-outline-light XDXD"><i class="fas fa-check"></i>   Vote</button>
-		<button type="button" class="btn btn-outline-light XDXD">Share</button>
-	</div>
-</div>
+{% endfor %}
+{% if done %}
+	<script>c()</script>
+{% endif %}
