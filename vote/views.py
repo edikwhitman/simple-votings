@@ -1,11 +1,12 @@
 import datetime
 
+from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from vote.forms import SignInForm, ReportForm
+from vote.forms import SignInForm, ReportForm, SearchForm
 from django.contrib.auth.models import User
 
-from vote.models import ReportModel
+from vote.models import ReportModel, VoteModel, CheckedVotings
 
 
 def get_base_context(request):
@@ -22,6 +23,7 @@ def get_base_context(request):
             {'link': '/', 'text': 'Главная'},
             {'link': '/create_vote', 'text': 'Создание голосования'},
             {'link': '/report', 'text': 'Пожаловаться'},
+            {'link': '/search_vote', 'text': 'Поиск'},
         ],
         'current_time': datetime.datetime.now(),
         'auth': auth,
@@ -43,6 +45,7 @@ def vote(request, pk=''):
     return render(request, 'vote.html', context)
 
 
+@login_required
 def create_vote(request):
     context = get_base_context(request)
     context['title'] = 'Создание голосования'
@@ -93,6 +96,7 @@ def sign_up(request):
     return render(request, 'registration/sign_in.html', context)
 
 
+@login_required
 def report(request):
     context = get_base_context(request)
     context['title'] = 'Создание жалобы'
@@ -103,7 +107,7 @@ def report(request):
         f = ReportForm(request.POST)
 
         if f.is_valid():
-            new_report = ReportModel(text=f.data['text'], link=f.data['link'])
+            new_report = ReportModel(text=f.data['text'], link=f.data['link'], author=request.user)
             new_report.save()
 
             f = ReportForm()
@@ -114,3 +118,70 @@ def report(request):
     context['form'] = f
 
     return render(request, 'report.html', context)
+
+
+@login_required
+def search_page(request):
+    context = get_base_context(request)
+    context['title'] = 'Поиск'
+    votings = VoteModel.objects.all()
+
+    if request.method == 'POST':
+        f = SearchForm(request.POST)
+
+        if f.is_valid():
+            request_str = f.data['request_str'].lower()
+            r_words = request_str.split()
+
+            show_votings = {}
+            votings_score = []
+
+            for voting in votings:
+                score = 0
+                for word in r_words:
+                    if (voting.question.lower()).find(word) != -1:
+                        score += 1
+                if score > 0:
+                    if show_votings.get(str(score), -1) == -1:
+                        show_votings[str(score)] = list()
+                    show_votings[str(score)].append(voting)
+
+            keys = show_votings.keys()
+            for key in keys:
+                votings_score.append(int(key))
+
+            votings = []
+            votings_score.sort(reverse=True)
+
+            for score in votings_score:
+                for item in show_votings[str(score)]:
+                    votings.append(item)
+
+            context['votings'] = votings
+
+    else:
+        f = SearchForm()
+        checked_votings = CheckedVotings.objects.filter(user=request.user.id)
+
+        for voting in votings:
+            voting.is_new = True
+            for item in checked_votings:
+                if item.voting_id.id == voting.id:
+                    voting.is_new = False
+
+        votings = reversed(votings)
+
+        context['votings'] = votings
+
+    context['form'] = f
+
+    return render(request, 'search.html', context)
+
+
+def report_status(request):
+    context = get_base_context(request)
+    context['title'] = 'Статус жалобы'
+
+    context['reports'] = ReportModel.objects.filter(author=request.user)
+
+    return render(request, 'report_status.html', context)

@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1>Поиск</h1>
+    <hr>
+    <form action="/search_vote/" method="POST">
+        {% csrf_token %}
+        {{ form }}
+        <input type="submit" value="Поиск">
+    </form>
+    <hr>
+    {% for voting in votings %}
+        <ul>
+            <li>
+                <a href="{{ voting.ref }}"> {{ voting.question }} </a>
+                {% if voting.is_new %}
+                    &nbsp;NEW
+                {% endif %}
+            </li>
+        </ul>
+    {% endfor %}
+{% endblock %}

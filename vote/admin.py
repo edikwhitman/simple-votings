@@ -8,7 +8,7 @@ class VoteAdmin(admin.ModelAdmin):
 
 
 class ReportAdmin(admin.ModelAdmin):
-    list_display = ('link', 'text')
+    list_display = ('link', 'text', 'status', 'author')
 
 
 # Register your models here.

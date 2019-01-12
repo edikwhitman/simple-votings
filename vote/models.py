@@ -1,13 +1,17 @@
+import datetime
 import uuid
 
+from django.contrib.auth.models import User
 from django.db import models
+from django.conf import settings
 
 # Create your models here.
 
 
 class VoteModel(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4,
-                          help_text="Unique ID for this particular voting")
+    creator = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
+    creation_time = models.DateTimeField(default=datetime.datetime.now())
+    ref = models.CharField(max_length=500, default='')
     question = models.CharField(max_length=100, default='')
     options = models.CharField(max_length=500, default='')
 
@@ -27,5 +31,23 @@ class ReportModel(models.Model):
     link = models.CharField(max_length=100, default='')
     text = models.CharField(max_length=300, default='')
 
+    STATUS = (
+        ('u', 'Unchecked'),
+        ('c', 'Checked'),
+    )
+
+    status = models.CharField(max_length=1, choices=STATUS, default='u')
+    author = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+        default=''
+    )
+
     def _str_(self):
         return self.text[:10]
+
+
+class CheckedVotings(models.Model):
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE)  # пользователь, просмотревший голосование
+    voting_id = models.ForeignKey(to=VoteModel, on_delete=models.CASCADE)  # голосование, которое пользователь просмотрел
+
