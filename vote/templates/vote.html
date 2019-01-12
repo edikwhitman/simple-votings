@@ -5,21 +5,10 @@
 		<link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
 		<link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
 		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 		<script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 		<script src="{% static 'js/bootstrap.js' %}"></script>
-		<script>
-			$(function () {
-				parameters = {
-					duration: 300
-				}
-				$('#XDXD').click(function () {
-					$('#XDXD').fadeOut(parameters);
-					$('#PewDiePie').css({'width': '98%'});
-					$('#T-Series').css({'width': '2%'});
-					$('h6#hide').css({'visibility':'visible'});
-				});
-			});
-		</script>
+		{% block js_for_vote %}{% endblock %}
 	</head>
 	<body>
 		<header>
@@ -30,42 +19,11 @@
 			</div>
 		</header>
 		<div class="SV">
-			<h1>PewDiePie or T-Series?</h1>
-			<div class="kEk">
-				<div class="custom-control custom-radio">
-					<input type="radio" id="customRadioInline1" name="customRadioInline1" class="custom-control-input">
-					<label class="custom-control-label" for="customRadioInline1"/>
-					<div class="FIXED">
-						<h3>PewDiePie</h3>
-					</div>
-				</div>
-				<div class="move">
-					<h6 id="hide" style="visibility: hidden">98%</h6>
-					<div class="normal">
-						<div class="progress">
-							<div class="progress-bar" role="progressbar" style="width: 70%" id="PewDiePie"></div>
-						</div>
-					</div>
-				</div>
-				<div class="custom-control custom-radio custom-control-inline">
-					<input type="radio" id="customRadioInline2" name="customRadioInline1" class="custom-control-input">
-					<label class="custom-control-label" for="customRadioInline2"/>
-					<div class="FIXED">
-						<h3>T-Series</h3>
-					</div>
-				</div>
-				<div class="move">
-					<h6 id="hide" style="visibility: hidden">2%</h6>
-					<div class="normal">
-						<div class="progress">
-							<div class="progress-bar bg-danger" role="progressbar" style="width: 70%" id="T-Series"></div>
-						</div>
-					</div>
-				</div>
-				<div class="btn-vote">
-					<button id="XDXD">Click Me</button>
-				</div>
-			</div>
+			{% if vote.type == 'one' %}
+				{% include 'one.html' %}
+			{% else %}
+				{% include 'many.html' %}
+			{% endif %}
 		</div>
 		<footer>
 			<div class="footer-c">

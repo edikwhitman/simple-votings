@@ -81,6 +81,15 @@ footer {
 	position: relative;
 	top: 40px;
 }
+
+.fa-check {
+	color: green;
+	font-size: 25px;
+}
+
+#XDXD {
+	font-size: 20px;
+}
 	
 .footer-c {
 	position: relative;
