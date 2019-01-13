@@ -48,6 +48,6 @@ class ReportModel(models.Model):
 
 
 class CheckedVotings(models.Model):
-    user = models.ForeignKey(to=User, on_delete=models.CASCADE)  # пользователь, просмотревший голосование
-    voting_id = models.ForeignKey(to=VoteModel, on_delete=models.CASCADE)  # голосование, которое пользователь просмотрел
+    user = models.ForeignKey(to=User, on_delete=models.CASCADE, default="")  # пользователь, просмотревший голосование
+    voting_id = models.ForeignKey(to=VoteModel, on_delete=models.CASCADE, default="")  # голосование, которое пользователь просмотрел
 

@@ -3,10 +3,26 @@ import datetime
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
-from vote.forms import SignInForm, ReportForm, SearchForm
+from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
 
 from vote.models import ReportModel, VoteModel, CheckedVotings
+
+
+def is_new_voting(checked_votings_list, voting):
+    for item in checked_votings_list:
+        if item.voting_id.id == voting.id:
+            return False
+
+    return True
+
+
+def is_existing_user(users_list, username):
+    for user in users_list:
+        if user.username == username:
+            return True
+
+    return False
 
 
 def get_base_context(request):
@@ -68,14 +84,7 @@ def sign_up(request):
             u_pw = f.data['password']
             u_pw_c = f.data['password_conf']
 
-            user_exists = 0
-            users = User.objects.all()
-            for user in users:
-                if user.get_username() == u_n:
-                    user_exists = 1
-                    break
-
-            if not user_exists:
+            if not is_existing_user(User.objects.all(), u_n):
                 if u_pw == u_pw_c:
                     new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw,
                                                         first_name=u_fn, last_name=u_ln)
@@ -125,59 +134,71 @@ def search_page(request):
     context = get_base_context(request)
     context['title'] = 'Поиск'
     votings = VoteModel.objects.all()
+    checked_votings = CheckedVotings.objects.filter(user=request.user.id)
 
-    if request.method == 'POST':
-        f = SearchForm(request.POST)
+    if len(request.GET) > 0:
+        request_str = str(request.GET.get('q')).lower()
+        author = request.GET.get('author')
 
-        if f.is_valid():
-            request_str = f.data['request_str'].lower()
-            r_words = request_str.split()
+        if author != None:
+            if is_existing_user(User.objects.all(), author):
+                author = User.objects.get(username=author)
+                votings = VoteModel.objects.filter(creator=author.id)
+            else:
+                votings = []
 
-            show_votings = {}
-            votings_score = []
-
-            for voting in votings:
-                score = 0
-                for word in r_words:
-                    if (voting.question.lower()).find(word) != -1:
-                        score += 1
-                if score > 0:
-                    if show_votings.get(str(score), -1) == -1:
-                        show_votings[str(score)] = list()
-                    show_votings[str(score)].append(voting)
-
-            keys = show_votings.keys()
-            for key in keys:
-                votings_score.append(int(key))
-
-            votings = []
-            votings_score.sort(reverse=True)
-
-            for score in votings_score:
-                for item in show_votings[str(score)]:
-                    votings.append(item)
-
-            context['votings'] = votings
-
-    else:
-        f = SearchForm()
-        checked_votings = CheckedVotings.objects.filter(user=request.user.id)
+        r_words = request_str.split()
+        show_votings = {}
+        votings_score = []
 
         for voting in votings:
-            voting.is_new = True
-            for item in checked_votings:
-                if item.voting_id.id == voting.id:
-                    voting.is_new = False
+            if author == None:
+                score = 0
+            else:
+                if request_str == 'none':
+                    score = 1
+                else:
+                    score = 0
+
+            for word in r_words:
+                if (voting.question.lower()).find(word) != -1:
+                    score += 1
+            if score > 0:
+                if show_votings.get(str(score), -1) == -1:
+                    show_votings[str(score)] = list()
+                show_votings[str(score)].append(voting)
+
+        keys = show_votings.keys()
+        for key in keys:
+            votings_score.append(int(key))
+
+        votings = []
+        votings_score.sort(reverse=True)
+
+        for score in votings_score:
+            for item in show_votings[str(score)]:
+                votings.append(item)
+
+        for voting in votings:
+            voting.is_new = is_new_voting(checked_votings, voting)
+
+        context['votings'] = votings
+        context['result'] = len(votings)
+        context['mode'] = 1
+
+    else:
+        for voting in votings:
+            voting.is_new = is_new_voting(checked_votings, voting)
 
         votings = reversed(votings)
 
         context['votings'] = votings
-
-    context['form'] = f
+        context['mode'] = 0
 
     return render(request, 'search.html', context)
 
 
+@login_required
 def report_status(request):
     context = get_base_context(request)
     context['title'] = 'Статус жалобы'

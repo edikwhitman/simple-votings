@@ -13,7 +13,3 @@ class SignInForm(forms.Form):
 class ReportForm(forms.Form):
     link = forms.CharField(label="Ссылка на голосование:")
     text = forms.CharField(label="Ваша жалоба:", widget=forms.Textarea)
-
-
-class SearchForm(forms.Form):
-    request_str = forms.CharField(label="")
