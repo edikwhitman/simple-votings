@@ -1,5 +1,5 @@
 html{
-	overflow-y:visible;
+	overflow-y:auto;
 	overflow-x:hidden;
 }
 
@@ -20,10 +20,10 @@ header {
 footer {
 	background:#2A2A2A;
 	height:50px;
-	position: fixed;
-	left: 0;
-	bottom: 0;
-	width: 100%
+	position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
 }
 
 .header-z {
@@ -45,6 +45,7 @@ footer {
 	left: 25%;
 	color: #fff;
 	width: 30%;
+	padding-bottom: 90px;
 }
 
 .FIXED {
