@@ -5,57 +5,20 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
-
 from vote.models import ReportModel, VoteModel, CheckedVotings
-
-
-def is_new_voting(checked_votings_list, voting):
-    for item in checked_votings_list:
-        if item.voting_id.id == voting.id:
-            return False
-
-    return True
-
-
-def is_existing_user(users_list, username):
-    for user in users_list:
-        if user.username == username:
-            return True
-
-    return False
-
-
-def get_base_context(request):
-    auth = []
-
-    if request.user.is_authenticated:
-        auth.append({'link': '/logout', 'text': 'Выйти'})
-    else:
-        auth.append({'link': '/login', 'text': 'Войти'})
-        auth.append({'link': '/sign_up', 'text': 'Регистрация'})
-
-    context = {
-        'menu': [
-            {'link': '/', 'text': 'Главная'},
-            {'link': '/create_vote', 'text': 'Создание голосования'},
-            {'link': '/report', 'text': 'Пожаловаться'},
-            {'link': '/search_vote', 'text': 'Поиск'},
-        ],
-        'current_time': datetime.datetime.now(),
-        'auth': auth,
-    }
-    return context
+import vote.functions as f_m   # Вспомогательные функции. Вынесены для сокращения кода в views.py
 
 
 def index_page(request):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Главная страница - simple votings'
     context['main_header'] = 'Simple votings'
+
     return render(request, 'index.html', context)
 
 
 def vote(request, pk=''):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Голосование'
 
     return render(request, 'vote.html', context)
@@ -63,16 +26,17 @@ def vote(request, pk=''):
 
 @login_required
 def create_vote(request):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Создание голосования'
 
     return render(request, 'create_vote.html', context)
 
 
 def sign_up(request):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Регистрация'
     context['errors'] = []
+
     if request.method == 'POST':
         f = SignInForm(request.POST)
 
@@ -84,7 +48,7 @@ def sign_up(request):
             u_pw = f.data['password']
             u_pw_c = f.data['password_conf']
 
-            if not is_existing_user(User.objects.all(), u_n):
+            if not f_m.is_existing_user(User.objects.all(), u_n):
                 if u_pw == u_pw_c:
                     new_user = User.objects.create_user(username=u_n, email=u_em, password=u_pw,
                                                         first_name=u_fn, last_name=u_ln)
@@ -107,9 +71,8 @@ def sign_up(request):
 
 @login_required
 def report(request):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Создание жалобы'
-
     context['success'] = False
 
     if request.method == 'POST':
@@ -131,7 +94,7 @@ def report(request):
 
 @login_required
 def search_page(request):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Поиск'
     votings = VoteModel.objects.all()
     checked_votings = CheckedVotings.objects.filter(user=request.user.id)
@@ -141,7 +104,7 @@ def search_page(request):
         author = request.GET.get('author')
 
         if author != None:
-            if is_existing_user(User.objects.all(), author):
+            if f_m.is_existing_user(User.objects.all(), author):
                 author = User.objects.get(username=author)
                 votings = VoteModel.objects.filter(creator=author.id)
             else:
@@ -151,14 +114,10 @@ def search_page(request):
         show_votings = {}
         votings_score = []
 
+        score_init_value = f_m.search_get_init_val(request_str, author)
+
         for voting in votings:
-            if author == None:
-                score = 0
-            else:
-                if request_str == 'none':
-                    score = 1
-                else:
-                    score = 0
+            score = score_init_value
 
             for word in r_words:
                 if (voting.question.lower()).find(word) != -1:
@@ -180,7 +139,7 @@ def search_page(request):
                 votings.append(item)
 
         for voting in votings:
-            voting.is_new = is_new_voting(checked_votings, voting)
+            voting.is_new = f_m.is_new_voting(checked_votings, voting)
 
         context['votings'] = votings
         context['result'] = len(votings)
@@ -188,7 +147,7 @@ def search_page(request):
 
     else:
         for voting in votings:
-            voting.is_new = is_new_voting(checked_votings, voting)
+            voting.is_new = f_m.is_new_voting(checked_votings, voting)
 
         votings = reversed(votings)
 
@@ -200,9 +159,8 @@ def search_page(request):
 
 @login_required
 def report_status(request):
-    context = get_base_context(request)
+    context = f_m.get_base_context(request)
     context['title'] = 'Статус жалобы'
-
     context['reports'] = ReportModel.objects.filter(author=request.user)
 
     return render(request, 'report_status.html', context)
