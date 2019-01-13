@@ -1,7 +1,8 @@
 {% for option in options %}
 	<div class="custom-control custom-checkbox">
 		{% if not done %}
-		<input type="checkbox" class="custom-control-input" id="customCheck{{ option.index }}">
+		<input type="checkbox" class="custom-control-input" id="customCheck{{ option.index }}"
+			   name="form" value="{{ option.index }}">
 		<label class="custom-control-label" for="customCheck{{ option.index }}"></label>
 		{% endif %}
 		<div class="FIXED">

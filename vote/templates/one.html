@@ -1,7 +1,8 @@
 {% for option in options %}
 	<div class="custom-control custom-radio">
 		{% if not done %}
-		<input type="radio" id="customRadioInline{{option.index}}" name="customRadioInline1" class="custom-control-input">
+		<input type="radio" id="customRadioInline{{option.index}}" name="form"
+			   value="{{ option.index }}" class="custom-control-input">
 		<label class="custom-control-label" for="customRadioInline{{option.index}}"></label>
 		{% endif %}
 		<div class="FIXED">

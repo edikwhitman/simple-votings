@@ -23,6 +23,13 @@
 					{% endfor %}
 				}
 			);
+			function d() {
+			    let x = false;
+			    for (let i = 1; i < {{ options|length }}; i++) {
+			        if ($('#customRadioInline'+i).attr("checked") || $('#customCheck'+i).attr("checked"))
+			            x = true;
+			    }
+			}
 			function c() {
 					$('.vote_btn').fadeOut({duration: 300});
 					{% for option in options %}
@@ -31,7 +38,7 @@
 					$('.hide').css({'visibility':'visible'});
 			}
 			$(function () {
-				$('.vote_btn').click(c);
+				$('.vote_btn').click(d);
 			});
 
 		</script>

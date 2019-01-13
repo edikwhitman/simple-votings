@@ -12,7 +12,7 @@
     {% for voting in votings %}
         <ul>
             <li>
-                <a href="{{ voting.ref }}"> {{ voting.question }} </a>
+                <a href="/vote/{{ voting.ref }}"> {{ voting.question }} </a>
                 {% if voting.is_new %}
                     &nbsp;NEW
                 {% endif %}
