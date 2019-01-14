@@ -20,7 +20,7 @@ header {
 footer {
 	background:#2A2A2A;
 	height:50px;
-	position: absolute;
+	position: fixed;
     left: 0;
     bottom: 0;
     width: 100%;
