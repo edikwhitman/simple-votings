@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import VoteModel, ReportModel
+from .models import VoteModel, ReportModel, CheckedVotings
 
 
 # Define the admin class
@@ -15,3 +15,4 @@ class ReportAdmin(admin.ModelAdmin):
 
 admin.site.register(VoteModel, VoteAdmin)
 admin.site.register(ReportModel, ReportAdmin)
+admin.site.register(CheckedVotings)

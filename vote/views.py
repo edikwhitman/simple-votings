@@ -47,11 +47,14 @@ def vote(request, pk=''):
     context = get_base_context(request)
     context['title'] = 'Голосование'
 
-    context['done'] = False
-
     if pk:
         if VoteModel.objects.filter(ref=pk):
             v = VoteModel.objects.filter(ref=pk)[0]
+
+            if CheckedVotings.objects.filter(user=User.objects.filter(username=request.user)[0], voting_id=v):
+                context['done'] = True
+            else:
+                context['done'] = False
 
             if request.method == 'POST':
                 checked = list(map(int, request.POST.getlist('form')))
@@ -64,6 +67,8 @@ def vote(request, pk=''):
                 v.save()
 
                 context['done'] = True
+
+                CheckedVotings(user=User.objects.filter(username=request.user)[0], voting_id=v).save()
 
             options = v.options.split(';')
             percents = list(map(int, v.vote_counts.split(';')))
