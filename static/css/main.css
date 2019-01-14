@@ -51,7 +51,7 @@ footer {
 .FIXED {
 	position: relative;
 	bottom: 5px;
-	left: 7px;
+	left: 12px;
 }
 
 .progress-bar {
@@ -68,7 +68,7 @@ footer {
 
 .normal {
 	position: relative;
-	left: 35px;
+	left: 40px;
 	bottom: 23px;
 }
 
