@@ -1,5 +1,3 @@
-import datetime
-
 from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
@@ -9,7 +7,7 @@ from django.conf import settings
 
 class VoteModel(models.Model):
     creator = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
-    creation_time = models.DateTimeField(default=datetime.datetime.now())
+    creation_time = models.DateTimeField(default='')
     ref = models.CharField(max_length=500, default='')
     question = models.CharField(max_length=100, default='')
     options = models.CharField(max_length=500, default='')
