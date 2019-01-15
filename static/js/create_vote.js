@@ -10,17 +10,19 @@ if (!Element.prototype.remove) {
 }
 
 btn_add.onclick = function add_new_answer_field() {
-    var scrolled = window.pageYOffset;
-    let child_elem = document.createElement("div");
-    scrollDown(scrolled, 1);
+    if(fields_count < 20){
+        var scrolled = window.pageYOffset;
+        let child_elem = document.createElement("div");
+        scrollDown(scrolled, 1);
 
-    child_elem.id = "answer_element_" + String(id_count);
-    child_elem.innerHTML = document.getElementById("answer_items").children[0].innerHTML;
-    child_elem.children[1].setAttribute("delete_number", id_count);
-    child_elem.children[1].id = "del_btn_" + String(id_count);
-    answer_items.appendChild(child_elem);
-    fields_count += 1;
-    id_count += 1;
+        child_elem.id = "answer_element_" + String(id_count);
+        child_elem.innerHTML = document.getElementById("answer_items").children[0].innerHTML;
+        child_elem.children[1].setAttribute("delete_number", id_count);
+        child_elem.children[1].id = "del_btn_" + String(id_count);
+        answer_items.appendChild(child_elem);
+        fields_count += 1;
+        id_count += 1;
+    }
 }
 
 function scrollDown(endPos, i) {
