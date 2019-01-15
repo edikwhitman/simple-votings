@@ -37,3 +37,11 @@
 <a href="{% url 'report_status' %}">Ваши жалобы</a>
 
 {% endblock %}
+
+{% block extended_js %}
+<script>
+    window.onload = function(){
+        id_link.value='{{ ref }}';
+    }
+</script>
+{% endblock %}

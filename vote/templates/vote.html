@@ -74,7 +74,8 @@
 		</div>
 		<footer>
 			<div class="footer-c">
-				<button type="button" onclick="window.location='{% url 'report' %}'" class="btn btn-outline-danger">report a poll</button>
+				<button type="button" onclick="window.location='{% url 'report' %}?ref={{vote.ref}}'"
+                        class="btn btn-outline-danger">report a poll</button>html
 				<a href="#">support</a>
 				<a href="#">about</a>
 				<a href="#">contact</a>
