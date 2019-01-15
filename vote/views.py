@@ -5,8 +5,36 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
-from vote.models import ReportModel, VoteModel, CheckedVotings
+
+from vote.models import ReportModel, VoteModel, CheckedVoting
 import vote.functions as f_m   # Вспомогательные функции. Вынесены для сокращения кода в views.py
+
+
+def not_found(request):
+    return render(request, '404.html')
+
+
+def get_base_context(request):
+    auth = []
+
+    if request.user.is_authenticated:
+        auth.append({'link': '/logout', 'text': 'Выйти'})
+    else:
+        auth.append({'link': '/login', 'text': 'Войти'})
+        auth.append({'link': '/sign_up', 'text': 'Регистрация'})
+
+    context = {
+        'menu': [
+            {'link': '/', 'text': 'Главная'},
+            {'link': '/create_vote', 'text': 'Создание голосования'},
+            {'link': '/report', 'text': 'Пожаловаться'},
+            {'link': '/search_vote', 'text': 'Поиск'},
+        ],
+        'current_time': datetime.datetime.now(),
+        'auth': auth,
+    }
+    return context
+
 
 
 def index_page(request):
@@ -21,7 +49,64 @@ def vote(request, pk=''):
     context = f_m.get_base_context(request)
     context['title'] = 'Голосование'
 
-    return render(request, 'vote.html', context)
+    if pk:
+        if VoteModel.objects.filter(ref=pk):
+            v = VoteModel.objects.filter(ref=pk)[0]
+
+            if request.user.is_anonymous:
+                context['done'] = True
+            else:
+                if CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0], voting_id=v):
+                    context['done'] = True
+                else:
+                    context['done'] = False
+
+                if request.method == 'POST' and not context['done']:
+                    checked = list(map(int, request.POST.getlist('form')))
+                    counts = list(map(int, v.vote_counts.split(';')))
+
+                    for i in checked:
+                        counts[i-1] += 1
+
+                    v.vote_counts = ';'.join(list(map(str, counts)))
+                    v.save()
+
+                    context['done'] = True
+
+                    CheckedVoting(user=User.objects.filter(username=request.user)[0], voting_id=v).save()
+
+            options = v.options.split(';')
+            percents = list(map(int, v.vote_counts.split(';')))
+            options_sum = sum(percents)
+
+            if options_sum == 0:
+                for i in range(len(percents)):
+                    percents[i] = 0
+            else:
+                x = 100
+                for i in range(len(percents)-1):
+                    if percents[i] != 0:
+                        percents[i] = int(percents[i]/options_sum*100)
+                        if percents[i] == 0:
+                            percents[i] = 1
+                        x -= percents[i]
+                percents[len(percents)-1] = x
+
+            options_fin = list()
+
+            for i in range(len(options)):
+                options_fin.append({'option': options[i], 'percent': percents[i], 'index': i+1})
+
+            context['options'] = options_fin
+            context['percents'] = percents
+            context['options_sum'] = options_sum
+            context['vote'] = v
+
+            return render(request, 'vote.html', context)
+        else:
+            not_found(request)
+    else:
+        return HttpResponseRedirect('/search_vote/')
 
 
 @login_required
@@ -97,13 +182,13 @@ def search_page(request):
     context = f_m.get_base_context(request)
     context['title'] = 'Поиск'
     votings = VoteModel.objects.all()
-    checked_votings = CheckedVotings.objects.filter(user=request.user.id)
+    checked_votings = CheckedVoting.objects.filter(user=request.user.id)
 
     if len(request.GET) > 0:
         request_str = str(request.GET.get('q')).lower()
         author = request.GET.get('author')
 
-        if author != None:
+        if author is not None:
             if f_m.is_existing_user(User.objects.all(), author):
                 author = User.objects.get(username=author)
                 votings = VoteModel.objects.filter(creator=author.id)

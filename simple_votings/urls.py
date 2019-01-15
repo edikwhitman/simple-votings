@@ -23,6 +23,7 @@ from vote import views
 urlpatterns = [
     path('admin/', admin.site.urls, name="admin"),
     path('', views.index_page, name="index"),
+    path('404/', views.not_found, name="404"),
 
     path('report/', views.report, name="report"),
     path('report_status/', views.report_status, name="report_status"),
@@ -30,7 +31,7 @@ urlpatterns = [
     path('create_vote/', views.create_vote, name="create_vote"),
     path('vote/', views.vote),
     path('search_vote/', views.search_page, name="search_vote"),
-    url(r'^vote/(?P<pk>[\w\d]+)$', views.vote, name='vote'),
+    url(r'^vote/(?P<pk>[\w\d-]+)$', views.vote, name='vote'),
 
     path('login/', auth_views.LoginView.as_view(), name="login"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
