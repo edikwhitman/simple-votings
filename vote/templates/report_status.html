@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ваши жалобы:</h1>
+
+{% if reports %}
+<table border="1">
+    <tr>
+        <td>Текст жалобы</td>
+        <td>Статус</td>
+    </tr>
+    {% for report in reports %}
+    <tr>
+        <td>{{ report.text }}</td>
+        <td>{{ report.get_status_display }}</td>
+    </tr>
+    {% endfor %}
+</table>
+{% else %}
+<p>У вас нет еще ни одной жалобы. <a href="{% url 'report' %}">Cоздать</a></p>
+{% endif %}
+{% endblock %}
