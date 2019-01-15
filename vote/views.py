@@ -6,7 +6,7 @@ from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm, SearchForm
 from django.contrib.auth.models import User
 
-from vote.models import ReportModel, VoteModel, CheckedVotings
+from vote.models import ReportModel, VoteModel, CheckedVoting
 
 
 def not_found(request):
@@ -42,7 +42,6 @@ def index_page(request):
     return render(request, 'index.html', context)
 
 
-@login_required
 def vote(request, pk=''):
     context = get_base_context(request)
     context['title'] = 'Голосование'
@@ -51,24 +50,27 @@ def vote(request, pk=''):
         if VoteModel.objects.filter(ref=pk):
             v = VoteModel.objects.filter(ref=pk)[0]
 
-            if CheckedVotings.objects.filter(user=User.objects.filter(username=request.user)[0], voting_id=v):
+            if request.user.is_anonymous:
                 context['done'] = True
             else:
-                context['done'] = False
+                if CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0], voting_id=v):
+                    context['done'] = True
+                else:
+                    context['done'] = False
 
-            if request.method == 'POST' and not context['done']:
-                checked = list(map(int, request.POST.getlist('form')))
-                counts = list(map(int, v.vote_counts.split(';')))
+                if request.method == 'POST' and not context['done']:
+                    checked = list(map(int, request.POST.getlist('form')))
+                    counts = list(map(int, v.vote_counts.split(';')))
 
-                for i in checked:
-                    counts[i-1] += 1
+                    for i in checked:
+                        counts[i-1] += 1
 
-                v.vote_counts = ';'.join(list(map(str, counts)))
-                v.save()
+                    v.vote_counts = ';'.join(list(map(str, counts)))
+                    v.save()
 
-                context['done'] = True
+                    context['done'] = True
 
-                CheckedVotings(user=User.objects.filter(username=request.user)[0], voting_id=v).save()
+                    CheckedVoting(user=User.objects.filter(username=request.user)[0], voting_id=v).save()
 
             options = v.options.split(';')
             percents = list(map(int, v.vote_counts.split(';')))
@@ -220,7 +222,7 @@ def search_page(request):
 
     else:
         f = SearchForm()
-        checked_votings = CheckedVotings.objects.filter(user=request.user.id)
+        checked_votings = CheckedVoting.objects.filter(user=request.user.id)
 
         for voting in votings:
             voting.is_new = True

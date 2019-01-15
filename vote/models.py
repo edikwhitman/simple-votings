@@ -47,7 +47,7 @@ class ReportModel(models.Model):
         return self.text[:10]
 
 
-class CheckedVotings(models.Model):
+class CheckedVoting(models.Model):
     user = models.ForeignKey(to=User, on_delete=models.CASCADE)  # пользователь, просмотревший голосование
     voting_id = models.ForeignKey(to=VoteModel, on_delete=models.CASCADE)  # голосование, которое пользователь посмотрел
 
