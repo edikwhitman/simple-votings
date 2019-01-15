@@ -5,7 +5,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
-
+import hashlib
 from vote.models import ReportModel, VoteModel, CheckedVoting
 import vote.functions as f_m   # Вспомогательные функции. Вынесены для сокращения кода в views.py
 
@@ -106,8 +106,8 @@ def vote(request, pk=''):
         return HttpResponseRedirect('/search_vote/')
 
 
-def fill_votes_db(question, options, type, dt):
-    db = VoteModel(question=question, options=options, type=type, closing_time = dt)
+def fill_votes_db(question, options, type, dt, ref):
+    db = VoteModel(question=question, options=options, type=type, closing_time = dt, ref = ref)
     db.save()
 
 @login_required
@@ -120,8 +120,10 @@ def create_vote(request):
         options = request.POST.get('options', 0)
         type = request.POST.get('type', 0)
         dt = datetime.datetime.strptime(request.POST.get('date') + " " + request.POST.get('time'), '%Y-%m-%d %H:%M')
-        print(dt)
-        fill_votes_db(question, options, type, dt)
+        hashstr = str(question + options + type + datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
+        hash = hashlib.md5(hashstr.encode('utf-8'))
+        fill_votes_db(question, options, type, dt, hash.hexdigest())
+
     else:
         print("No Request")
     return render(request, 'create_vote.html', context)
