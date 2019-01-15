@@ -36,7 +36,6 @@ def get_base_context(request):
     return context
 
 
-
 def index_page(request):
     context = f_m.get_base_context(request)
     context['title'] = 'Главная страница - simple votings'
@@ -171,6 +170,7 @@ def report(request):
             context['success'] = True
     else:
         f = ReportForm()
+        context['ref'] = request.GET.get('ref', '')
 
     context['form'] = f
 
