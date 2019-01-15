@@ -56,7 +56,7 @@ def vote(request, pk=''):
             else:
                 context['done'] = False
 
-            if request.method == 'POST':
+            if request.method == 'POST' and not context['done']:
                 checked = list(map(int, request.POST.getlist('form')))
                 counts = list(map(int, v.vote_counts.split(';')))
 
@@ -80,8 +80,11 @@ def vote(request, pk=''):
             else:
                 x = 100
                 for i in range(len(percents)-1):
-                    percents[i] = int(percents[i]/options_sum*100)
-                    x -= percents[i]
+                    if percents[i] != 0:
+                        percents[i] = int(percents[i]/options_sum*100)
+                        if percents[i] == 0:
+                            percents[i] = 1
+                        x -= percents[i]
                 percents[len(percents)-1] = x
 
             options_fin = list()
