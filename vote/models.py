@@ -21,8 +21,7 @@ class VoteModel(models.Model):
 
     type = models.CharField(max_length=1, choices=TYPES, default='o')
 
-    closing_poll_datetime = models.DateTimeField(default=datetime.datetime.now() + datetime.timedelta(days=1),
-                                                 blank=True)
+    closing_time = models.DateTimeField(blank=True)
 
     edited = models.BooleanField(default=False)
 

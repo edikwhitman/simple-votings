@@ -43,9 +43,11 @@ def vote(request, pk=''):
 
     return render(request, 'vote.html', context)
 
-def fill_votes_db(question, options, type):
-    db = VoteModel(question=question, options=options, type=type)
+
+def fill_votes_db(question, options, type, dt):
+    db = VoteModel(question=question, options=options, type=type, closing_time = dt)
     db.save()
+
 
 def create_vote(request):
     context = get_base_context(request)
@@ -55,7 +57,9 @@ def create_vote(request):
         question = request.POST.get('question', 0)
         options = request.POST.get('options', 0)
         type = request.POST.get('type', 0)
-        fill_votes_db(question, options, type)
+        dt = datetime.datetime.strptime(request.POST.get('date') + " " + request.POST.get('time'), '%Y-%m-%d %H:%M')
+        print(dt)
+        fill_votes_db(question, options, type, dt)
     else:
         print("No Request")
     return render(request, 'create_vote.html', context)

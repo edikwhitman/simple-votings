@@ -92,6 +92,8 @@
     <script>
         $(document).ready(function() {
                $("#poll-form").submit(function(event){
+                    let date = document.getElementById("datepicker").value;
+                    let time = document.getElementById("timepicker").value;
                     let question = document.getElementById("question_field").value;
                     let options = document.getElementsByClassName("answers_fields");
                     let str_options = "";
@@ -115,6 +117,8 @@
                                 'question': question,
                                 'options': str_options,
                                 'type': ['o','s','d'][type],
+                                'date': date,
+                                'time': time,
                                 }
                     });
                     alert("Данные успешно занесены в БД");
