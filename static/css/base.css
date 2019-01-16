@@ -1,0 +1,62 @@
+html{
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+body {
+	background: #323232 !important;
+	font-family: calibri !important;
+}
+
+
+header {
+	background:#323232;
+	line-height:25px;
+	height: 100px;
+	color: #fff;
+	width: 100%
+}
+
+footer {
+	background:#2A2A2A;
+	height:50px;
+	position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+}
+
+.header-z {
+	position: relative;
+	font-size: 25px;
+	left: 25%;
+	top: 80px;
+}
+
+.header-b {
+	position: absolute;
+	right: 25%;
+	top: 70px;
+}
+
+main {
+	position: relative;
+	top: 10%;
+	left: 25%;
+	color: #fff;
+	width: 30%;
+	padding-bottom: 90px;
+	padding-top: 50px;
+}
+
+
+.footer-c {
+	position: relative;
+	top: 7px;
+	left: 25%;
+}
+
+.footer-c > a {
+	color: #707070;
+	padding: 20px;
+}
