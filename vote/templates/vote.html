@@ -11,7 +11,7 @@
 
 		<script>
 			function makeColor(i) {
-				if (parseInt(i) % 2 == 0)
+				if ((parseInt(i)-2) % 3 == 0)
 					$('#'+i).addClass(" bg-success")
 				if (parseInt(i) % 3 == 0)
 					$('#'+i).addClass(" bg-danger")
@@ -57,7 +57,7 @@
 			<div class="kEk">
 				<form action="" method="POST">
 					{% csrf_token %}
-					{% if vote.type == 'o' %}
+					{% if vote.type == 'o' or vote.type == 'd' %}
 						{% include 'one.html' %}
 					{% elif vote.type == 's' %}
 						{% include 'many.html' %}
