@@ -61,20 +61,20 @@ def vote(request, pk=''):
 
                 if request.method == 'POST' and not context['done']:
                     checked = list(map(int, request.POST.getlist('form')))
-                    counts = list(map(int, v.vote_counts.split(';')))
+                    counts = list(map(int, v.vote_counts.split('\x06')))
 
                     for i in checked:
                         counts[i-1] += 1
 
-                    v.vote_counts = ';'.join(list(map(str, counts)))
+                    v.vote_counts = '\x06'.join(list(map(str, counts)))
                     v.save()
 
                     context['done'] = True
 
                     CheckedVoting(user=User.objects.filter(username=request.user)[0], voting_id=v).save()
 
-            options = v.options.split(';')
-            percents = list(map(int, v.vote_counts.split(';')))
+            options = v.options.split('\x06')
+            percents = list(map(int, v.vote_counts.split('\x06')))
             options_sum = sum(percents)
             if options_sum == 0:
                 for i in range(len(percents)):
