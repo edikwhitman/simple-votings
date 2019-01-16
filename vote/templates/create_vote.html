@@ -96,10 +96,15 @@
                     let time = document.getElementById("timepicker").value;
                     let question = document.getElementById("question_field").value;
                     let options = document.getElementsByClassName("answers_fields");
+                    let vote_counts = "";
                     let str_options = "";
                     for(let i = 0; i < options.length; i++) {
                         str_options += options[i].value
-                        if(i != options.length-1) str_options += String.fromCharCode(6);
+                        vote_counts += "0"
+                        if(i != options.length-1){
+                            str_options += String.fromCharCode(6);
+                            vote_counts += String.fromCharCode(6);
+                        }
                     }
                     let type = -1;
                     var radios = document.getElementsByName('options');
@@ -119,6 +124,7 @@
                                 'type': ['o','s','d'][type],
                                 'date': date,
                                 'time': time,
+                                'vote_counts': vote_counts,
                                 }
                     });
                     alert("Данные успешно занесены в БД");
