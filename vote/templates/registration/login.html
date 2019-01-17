@@ -9,19 +9,17 @@
         {% if form.errors %}
             {% for field in form %}
                 {% for error in field.errors %}
-                    <div style="color: red">
-                        {{ error|escape }}
-                    </div>
+                    <span class="btn btn-danger mb-3">{{ error|escape }}</span>
                 {% endfor %}
             {% endfor %}
             {% for error in form.non_field_errors %}
-                <div style="color: red">
-                    {{ error|escape }}
-                </div>
+                <span class="btn btn-danger mb-3">{{ error|escape }}</span>
             {% endfor %}
         {% endif %}
 
-        <p style="color: red"> {{ error }} </p>
+        {% if error %}
+        <span class="btn btn-danger mb-3"> {{ error }} </span>
+        {% endif %}
         <br>
 
         <label for="id_username" class="h5">Имя пользователя:</label>

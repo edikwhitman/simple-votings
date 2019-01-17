@@ -5,44 +5,38 @@
     <h1>Регистрация</h1>
     <hr>
     {% for error in errors %}
-        <div class="error" style="color: red">
-            <strong>{{ error }}</strong>
-        </div>
+        <span class="btn btn-danger mb-3">{{ error }}</span>
     {% endfor %}
 
     {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
-                <div class="error" style="color: red">
-                    <strong>{{ error|escape }}</strong>
-                </div>
+                <span class="btn btn-danger mb-3">{{ error|escape }}</span>
             {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
-            <div class="error" style="color: red">
-                <strong>{{ error|escape }}</strong>
-            </div>
+            <span class="btn btn-danger mb-3">{{ error|escape }}</span>
         {% endfor %}
     {% endif %}
 
     <form method="POST" style="width: 40%;">
         {% csrf_token %}
-        <label style="font-size: x-large">{{ form.user_fname.label }}</label>
+        <label class="h4">{{ form.user_fname.label }}</label>
         {{ form.user_fname }}
         <br><br>
-        <label style="font-size: x-large">{{ form.user_lname.label }}</label>
+        <label class="h4">{{ form.user_lname.label }}</label>
         {{ form.user_lname }}
         <br><br>
-        <label style="font-size: x-large">{{ form.user_email.label }}</label>
+        <label class="h4">{{ form.user_email.label }}</label>
         {{ form.user_email }}
         <br><br>
-        <label style="font-size: x-large">{{ form.user_name.label }}</label>
+        <label class="h4">{{ form.user_name.label }}</label>
         {{ form.user_name }}
         <br><br>
-        <label style="font-size: x-large">{{ form.password.label }}</label>
+        <label class="h4">{{ form.password.label }}</label>
         {{ form.password }}
         <br><br>
-        <label style="font-size: x-large">{{ form.password_conf.label }}</label>
+        <label class="h4">{{ form.password_conf.label }}</label>
         {{ form.password_conf }}
         <br><br>
         <input type="submit" class="btn btn-secondary" value="Зарегистрироваться">

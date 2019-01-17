@@ -1,40 +1,42 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+{% if success %}
+<div class="alert alert-success w-50">
+    Жалоба успешно добавлена
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+        <span aria-hidden="true">×</span>
+    </button>
+</div>
+{% endif %}
+
 <h1>Отправьте вашу жалобу здесь!</h1>
 
 {% if form.errors %}
         {% for field in form %}
             {% for error in field.errors %}
-                <div class="error" style="color: red">
-                    <strong>{{ error|escape }}</strong>
-                </div>
+                <span class="btn btn-danger mb-3">{{ error|escape }}</span>
             {% endfor %}
         {% endfor %}
         {% for error in form.non_field_errors %}
-            <div class="error" style="color: red">
-                <strong>{{ error|escape }}</strong>
-            </div>
+            <span class="btn btn-danger mb-3">{{ error|escape }}</span>
         {% endfor %}
     {% endif %}
 
-<form method="POST">
+<form method="POST" style="width: 45%" class="mt-3">
     {% csrf_token %}
-    {{ form.link.label }}
+    <label class="h4">{{ form.link.label }}</label>
     {{ form.link }}
     <br><br>
-    {{ form.text.label }}
+    <label class="h4">{{ form.text.label }}</label>
     {{ form.text }}
     <br><br>
-    <input type="submit" value="Отправить">
+    <input type="submit" class="btn btn-danger" value="Отправить">
 
 </form>
 
-{% if success %}
-<p style="color: green">Жалоба создана</p>
-{% endif %}
-
-<a href="{% url 'report_status' %}">Ваши жалобы</a>
+<a href="{% url 'report_status' %}" style="font-size: x-large">Ваши жалобы</a>
 
 {% endblock %}
 

@@ -12,5 +12,7 @@ class SignInForm(forms.Form):
 
 
 class ReportForm(forms.Form):
-    link = forms.CharField(label="Ссылка на голосование:")
-    text = forms.CharField(label="Ваша жалоба:", widget=forms.Textarea)
+    link = forms.CharField(label="Ссылка на голосование:", widget=forms.TextInput(
+        attrs={'class': 'float-right form-control'}))
+    text = forms.CharField(label="Ваша жалоба:", widget=forms.Textarea(
+        attrs={'rows': '5', 'style': 'width: 100%;', 'class': 'form-control', 'placeholder': 'УДОЛИТЕ!!1!'}))
