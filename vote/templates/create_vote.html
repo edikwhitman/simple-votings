@@ -114,6 +114,7 @@
                             break;
                         }
                     }
+
                     $.ajax({
                          type:"POST",
                          url:"/create_vote/",
@@ -125,9 +126,10 @@
                                 'date': date,
                                 'time': time,
                                 'vote_counts': vote_counts,
-                                }
+                                },
+                        success: function(){alert("Данные успешно занесены в БД");},
+                        error: function(){alert("Ошибка занесения в БД");}
                     });
-                    alert("Данные успешно занесены в БД");
                     return false;
                });
             });
