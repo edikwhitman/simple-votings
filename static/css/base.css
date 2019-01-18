@@ -36,20 +36,20 @@ footer {
 .header-b {
 	position: absolute;
 	right: 25%;
-	top: 70px;
+	top: 70px; 
 }
 
-main {
+.SV {
 	position: relative;
-	top: 10%;
-	left: 25%;
+	top: 100px;
+	margin:0 auto;
 	color: #fff;
-	width: 30%;
+	width: 500px;
+	font-size: 20px;
 	padding-bottom: 90px;
-	padding-top: 50px;
+	text-align: center;
 }
-
-
+	
 .footer-c {
 	position: relative;
 	top: 7px;
