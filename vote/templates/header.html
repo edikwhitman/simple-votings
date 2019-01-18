@@ -1,5 +1,5 @@
 <header>
-    <div class="header-z">Simple Votings</div>
+    <div class="header-z" onclick="window.location='{% url 'index' %}'">Simple Votings</div>
     <div class="header-b">
         <a href="{% url 'create_vote' %}" class="btn btn-outline-light">Create poll</a>
         {% if request.user.is_authenticated %}

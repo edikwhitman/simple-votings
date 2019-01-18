@@ -11,29 +11,10 @@ import vote.functions as f_m   # Вспомогательные функции. 
 
 
 def not_found(request):
-    return render(request, '404.html')
+    context = f_m.get_base_context(request)
+    context['title'] = '404'
 
-
-def get_base_context(request):
-    auth = []
-
-    if request.user.is_authenticated:
-        auth.append({'link': '/logout', 'text': 'Выйти'})
-    else:
-        auth.append({'link': '/login', 'text': 'Войти'})
-        auth.append({'link': '/sign_up', 'text': 'Регистрация'})
-
-    context = {
-        'menu': [
-            {'link': '/', 'text': 'Главная'},
-            {'link': '/create_vote', 'text': 'Создание голосования'},
-            {'link': '/report', 'text': 'Пожаловаться'},
-            {'link': '/search_vote', 'text': 'Поиск'},
-        ],
-        'current_time': datetime.datetime.now(),
-        'auth': auth,
-    }
-    return context
+    return render(request, '404.html', context)
 
 
 def index_page(request):
@@ -103,7 +84,7 @@ def vote(request, pk=''):
 
             return render(request, 'vote.html', context)
         else:
-            not_found(request)
+            return HttpResponseRedirect('/404/')
     else:
         return HttpResponseRedirect('/search_vote/')
 
@@ -177,7 +158,6 @@ def report(request):
     return render(request, 'report.html', context)
 
 
-@login_required
 def search_page(request):
     context = f_m.get_base_context(request)
     context['title'] = 'Поиск'
