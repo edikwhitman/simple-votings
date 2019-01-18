@@ -7,11 +7,12 @@ from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
 import hashlib
 from vote.models import ReportModel, VoteModel, CheckedVoting
-import vote.functions as f_m   # Вспомогательные функции. Вынесены для сокращения кода в views.py
+import vote.functions as f_m  # Вспомогательные функции. Вынесены для сокращения кода в views.py
 
 
 def not_found(request):
     return render(request, '404.html')
+
 
 def get_base_context(request):
     auth = []
@@ -64,7 +65,7 @@ def vote(request, pk=''):
                     counts = list(map(int, v.vote_counts.split('\x06')))
 
                     for i in checked:
-                        counts[i-1] += 1
+                        counts[i - 1] += 1
 
                     v.vote_counts = '\x06'.join(list(map(str, counts)))
                     v.save()
@@ -107,8 +108,9 @@ def vote(request, pk=''):
 
 
 def fill_votes_db(question, options, type, dt, ref, vote_counts):
-    db = VoteModel(question=question, options=options, type=type, closing_time = dt, ref = ref, vote_counts = vote_counts)
+    db = VoteModel(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts)
     db.save()
+
 
 @login_required
 def create_vote(request):
@@ -121,10 +123,8 @@ def create_vote(request):
         type = request.POST.get('type', 0)
         vote_counts = request.POST.get('vote_counts', 0)
         dt = datetime.datetime.strptime(request.POST.get('date') + " " + request.POST.get('time'), '%Y-%m-%d %H:%M')
-        hashstr = str(question + options + type + datetime.datetime.now().strftime("%Y%m%d%H%M%S"))
-        hash = hashlib.md5(hashstr.encode('utf-8'))
-        fill_votes_db(question, options, type, dt, hash.hexdigest(), vote_counts)
-
+        hash_link = request.POST.get('hash_link', 0)
+        fill_votes_db(question, options, type, dt, hash_link, vote_counts)
     else:
         print("No Request")
     return render(request, 'create_vote.html', context)

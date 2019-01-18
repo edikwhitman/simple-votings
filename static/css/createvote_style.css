@@ -82,6 +82,14 @@ form{
     height: 20px;
 }
 
+#user_success_alert{
+	position: fixed;
+	top: 10px;
+	transition: 0.5s;
+	width: 500px;
+	left: 50%;
+	margin-left: -250px;
+}
 
 input[type="date" i], input[type="time" i]{
     padding: 0 10px;
