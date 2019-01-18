@@ -45,13 +45,7 @@
 
 	</head>
 	<body>
-		<header>
-			<div class="header-z">Simple Votings</div>
-			<div class="header-b">
-				<a href="{% url 'create_vote' %}" class="btn btn-outline-light">create poll</a>
-				<a href="{% url 'login' %}" class="btn btn-outline-light">Log in</a>
-			</div>
-		</header>
+		{% include 'header.html' %}
 		<div class="SV">
 			<h1>{{ vote.question }}</h1>
 			<div class="kEk">
@@ -72,14 +66,6 @@
 				</form>
 			</div>
 		</div>
-		<footer>
-			<div class="footer-c">
-				<button type="button" onclick="window.location='{% url 'report' %}?ref={{vote.ref}}'"
-                        class="btn btn-outline-danger">report a poll</button>
-				<a href="#">support</a>
-				<a href="#">about</a>
-				<a href="#">contact</a>
-			</div>
-		</footer>
+		{% include 'footer.html' %}
 	</body>
 </html>
