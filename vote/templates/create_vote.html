@@ -22,7 +22,7 @@
                 <div class="form-group">
                     <label class = "p_label">Question: </label>
                     <input type="text" class="text_field form-control" id="question_field"
-                           placeholder="Specify the question">
+                           placeholder="Specify the question" required>
                 </div>
                 <div class="form-group clearfix">
                     <label class="p_label types_label float-left">Type of
@@ -45,9 +45,9 @@
                 <div class="form-group">
                     <label class = "p_label">Open to: </label>
                     <label class="p_label float-left" style="width: 60px; margin-top: 7px;margin-right: 5px;">Date: </label>
-                    <input name="datetime" id="datepicker" type="date"  class="text_field form-control float-left" style="width: 200px;">
+                    <input name="datetime" id="datepicker" type="date"  class="text_field form-control float-left" required style="width: 200px;">
                     <label class="p_label float-left" style="width: 60px; margin-left: 20px; margin-top: 7px; margin-right: 5px;">Time: </label>
-                    <input name="datetime" id="timepicker" type="time"  class="text_field form-control float-left" style="width: 150px;">
+                    <input name="datetime" id="timepicker" type="time"  class="text_field form-control float-left" required style="width: 150px;">
                 </div>
 
                 <div class="form-group">
@@ -56,14 +56,14 @@
                         <div id="answer_element_0">
                             <input type="text"
                                    class="answers_fields text_field form-control float-left answers_elements"
-                                   id="formGroupAnswerInput" placeholder="Specify the answer">
+                                   id="formGroupAnswerInput" placeholder="Specify the answer" required>
                             <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_0"
                                     delete_number="0"><i class="fas fa-trash"></i></button>
                         </div>
                         <div id="answer_element_1">
                             <input type="text"
                                    class="answers_fields text_field form-control float-left answers_elements"
-                                   id="formGroupAnswerInput" placeholder="Specify the answer">
+                                   id="formGroupAnswerInput" placeholder="Specify the answer" required>
                             <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_1"
                                     delete_number="1"><i class="fas fa-trash"></i></button>
                         </div>
