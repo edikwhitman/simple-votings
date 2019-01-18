@@ -3,32 +3,35 @@
 {% block content %}
     <h1>Поиск</h1>
     <hr>
-    <label for="search_question">Текст вопроса:</label>
-    <input type="text" id="search_question" onchange="get_ref();">
-    <br><br>
-    <label for="search_user">Автор:</label>
-    <input type="text" id="search_user" onchange="get_ref();">
-    <br><br>
-    <a href="/search_vote/" id="search_submit"><button>Поиск</button></a>
+    <div class="form-group w-75">
+    <label class="h4 float-left" for="search_question">Вопрос:</label>
+    <input type="text" id="search_question" onchange="get_ref();" class="float-right">
+    <br>
+    <label class="h4 float-left" for="search_user">Автор:</label>
+    <input type="text" id="search_user" onchange="get_ref();" class="mt-2 float-right">
+    <br>
+    <a href="/search_vote/" id="search_submit"><button class="btn btn-primary mt-3 float-left">Поиск</button></a>
+    </div>
+    <br>
     <hr>
     {% if mode == 1 %}
         {% if result > 0 %}
             <p>По данному запросу найдено {{ result }} результатов:</p>
         {% else %}
-            <p>По данному запросу ничего не найдено :(</p>
+            <h4>По данному запросу ничего не найдено :(</h4>
         {% endif%}
     {% endif %}
 
-    {% for voting in votings %}
-        <ul>
-            <li>
-                <a href="/vote/{{ voting.ref }}"> {{ voting.question }} </a>
-                {% if voting.is_new %}
-                    &nbsp;NEW
-                {% endif %}
-            </li>
-        </ul>
-    {% endfor %}
+    <ul class="list-group">
+        {% for voting in votings %}
+        <li class="list-group-item list-group-item-dark my-1">
+            <a href="/vote/{{ voting.ref }}" style="color: #323232"> {{ voting.question }} </a>
+            {% if voting.is_new %}
+            <span class="badge badge-danger">&nbsp;NEW</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
 
 {% endblock %}
 

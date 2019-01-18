@@ -1,11 +1,8 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>404</title>
-</head>
-<body>
-    <h1>404 NOT FOUND</h1>
-    <h2>Сорян, такого на сайте нет, идите лучше на <a href="{% url 'index' %}'">стартовую страничку</h2>
-</body>
-</html>
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1 class="danger">Page not found (404)</h1>
+    <h2 class="mt-5">Sorry, we can't find this page :(</h2>
+    <br>
+    <h3><a href="{% url 'index' %}">Start page</a></h3>
+{% endblock %}

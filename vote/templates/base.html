@@ -5,7 +5,9 @@
         <!-- BASE CSS-->
         {% load static %}
         <link rel="stylesheet" href="{% static 'css/base.css' %}">
-        <link rel="shortcut icon" type="image/png" href="{% static 'img/favicon.ico' %}"/>
+        <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css" integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
 
         {% block extended_css %}
         {% endblock %}
@@ -14,13 +16,21 @@
     </head>
 
     <body>
-        {% include "menu.html" %}
-
-        {% block content %}
-        {% endblock %}
+        {% include 'header.html' %}
+        <!--main role="main" class="container mx-auto"-->
+		
+		<div class="SV">
+			{% block content %}
+			{% endblock %}
+		</div>
+		
+        </main>
+        {% include 'footer.html' %}
 
         <!--BASE JS-->
 
+        <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+		<script src="{% static 'js/bootstrap.js' %}"></script>
         {% block extended_js %}
         {% endblock %}
     </body>

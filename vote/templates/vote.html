@@ -11,7 +11,7 @@
 
 		<script>
 			function makeColor(i) {
-				if (parseInt(i) % 2 == 0)
+				if ((parseInt(i)-2) % 3 == 0)
 					$('#'+i).addClass(" bg-success")
 				if (parseInt(i) % 3 == 0)
 					$('#'+i).addClass(" bg-danger")
@@ -45,19 +45,13 @@
 
 	</head>
 	<body>
-		<header>
-			<div class="header-z">Simple Votings</div>
-			<div class="header-b">
-				<a href="{% url 'create_vote' %}" class="btn btn-outline-light">create poll</a>
-				<a href="{% url 'login' %}" class="btn btn-outline-light">Log in</a>
-			</div>
-		</header>
+		{% include 'header.html' %}
 		<div class="SV">
 			<h1>{{ vote.question }}</h1>
 			<div class="kEk">
 				<form action="" method="POST">
 					{% csrf_token %}
-					{% if vote.type == 'o' %}
+					{% if vote.type == 'o' or vote.type == 'd' %}
 						{% include 'one.html' %}
 					{% elif vote.type == 's' %}
 						{% include 'many.html' %}
@@ -72,14 +66,6 @@
 				</form>
 			</div>
 		</div>
-		<footer>
-			<div class="footer-c">
-				<button type="button" onclick="window.location='{% url 'report' %}?ref={{vote.ref}}'"
-                        class="btn btn-outline-danger">report a poll</button>html
-				<a href="#">support</a>
-				<a href="#">about</a>
-				<a href="#">contact</a>
-			</div>
-		</footer>
+		{% include 'footer.html' %}
 	</body>
 </html>
