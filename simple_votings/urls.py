@@ -39,4 +39,10 @@ urlpatterns = [
 
     path('contacts/', views.contacts, name="contacts"),
     path('support/', views.support, name="support"),
+
+    path('profile/', views.profile, name="profile"),
+    path('profile/my_votings/', views.my_votings, name="my_votings"),
+    path('profile/votings_i_answered/', views.votings_i_answered, name="votings_i_answered"),
+    path('profile/edit', views.profile_edit, name="profile_edit"),
 ]
+

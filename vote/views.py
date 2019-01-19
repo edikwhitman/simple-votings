@@ -1,6 +1,7 @@
 import datetime
 
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.hashers import check_password
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm
@@ -251,3 +252,54 @@ def support(request):
     context = f_m.get_base_context(request)
 
     return render(request, 'support.html', context)
+
+
+@login_required
+def my_votings(request):
+    context = f_m.get_base_context(request)
+
+    if VoteModel.objects.filter(creator=User.objects.filter(username=request.user)[0]):
+        context['votings'] = VoteModel.objects.filter(creator=User.objects.filter(username=request.user)[0])
+
+    return render(request, 'my_votings.html', context)
+
+
+@login_required
+def votings_i_answered(request):
+    context = f_m.get_base_context(request)
+
+    if CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0]):
+        context['votings'] = CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0])
+
+    return render(request, 'votings_i_answered.html', context)
+
+
+@login_required
+def profile(request):
+    context = f_m.get_base_context(request)
+
+    return render(request, 'profile.html', context)
+
+
+@login_required
+def profile_edit(request):
+    context = f_m.get_base_context(request)
+
+    user = User.objects.filter(username=request.user)[0]
+    if request.method == 'POST':
+        if request.POST.get('email', False):
+            user.email = request.POST.get('email')
+            user.save()
+            context['success'] = 'Email успешно изменен'
+        if request.POST.get('old_pswd', False):
+            if user.check_password(request.POST.get('old_pswd')):
+                if request.POST.get('new_pswd') == request.POST.get('conf_pswd'):
+                    user.set_password(request.POST.get('new_pswd'))
+                    user.save()
+                    context['success'] = 'Пароль успешно изменен'
+                else:
+                    context['error'] = 'Новые пароли не совпадают'
+            else:
+                context['error'] = 'Старый пароль неверный'
+
+    return render(request, 'profile_edit.html', context)

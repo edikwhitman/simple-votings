@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-3">Привет, {{ user }}!</h1>
+
+<a class="btn btn-outline-light" href="{% url 'my_votings' %}">Мои голосования</a>
+<a class="btn btn-outline-light" href="{% url 'votings_i_answered' %}">Где я голосовал</a>
+<a class="btn btn-outline-light" href="{% url 'profile_edit' %}">Редактирование профиля</a>
+{% endblock %}

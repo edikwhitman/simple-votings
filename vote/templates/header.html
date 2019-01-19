@@ -9,6 +9,10 @@
             <a href="{% url 'login' %}" class="btn btn-outline-light">
                 Log in
          {% endif %}
+
+         {% if user.is_authenticated %}
+         <a href="{% url 'profile' %}" class="btn btn-outline-light ml-1">Profile</a>
+         {% endif %}
         </a>
     </div>
 </header>
