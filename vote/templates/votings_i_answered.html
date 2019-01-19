@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Где вы голосовали</h1>
+{% if votings %}
+    <div class="list-group w-50">
+    {% for voting in votings %}
+        <a href="{% url 'vote' %}{{voting.voting_id.ref}}" class="list-group-item list-group-item-action list-group-item-dark">
+            {{ voting.voting_id.question }}
+        </a>
+    {% endfor %}
+    </div>
+{% else %}
+<h3 class="mt-5">Вы еще нигде не голосовали. <a href="{% url 'vote' %}">Проголосовать</a></h3>
+{% endif %}
+{% endblock %}
