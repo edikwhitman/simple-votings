@@ -89,7 +89,8 @@ def vote(request, pk=''):
 
 
 def fill_votes_db(question, options, type, dt, ref, vote_counts):
-    db = VoteModel(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts)
+    db = VoteModel(question=question, options=options, type=type,
+                   closing_time=dt, ref=ref, vote_counts=vote_counts, creation_time=datetime.datetime.now())
     db.save()
 
 
@@ -98,7 +99,6 @@ def create_vote(request):
     context = f_m.get_base_context(request)
     context['title'] = 'Создание голосования'
     if request.is_ajax():
-        print("Get Post Request")
         question = request.POST.get('question', 0)
         options = request.POST.get('options', 0)
         type = request.POST.get('type', 0)
@@ -106,8 +106,7 @@ def create_vote(request):
         dt = datetime.datetime.strptime(request.POST.get('date') + " " + request.POST.get('time'), '%Y-%m-%d %H:%M')
         hash_link = request.POST.get('hash_link', 0)
         fill_votes_db(question, options, type, dt, hash_link, vote_counts)
-    else:
-        print("No Request")
+
     return render(request, 'create_vote.html', context)
 
 

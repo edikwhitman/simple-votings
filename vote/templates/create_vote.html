@@ -1,15 +1,11 @@
 {% extends "base.html" %}
 
 {% block extended_css %}
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
-          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
-          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" href="/static/css/createvote_style.css">
+ <link rel="stylesheet" href="/static/css/createvote_style.css">
 {% endblock %}
 
 {% block content %}
-    <div class="sub_container">
+    <div class="sub_container m-0">
         <div class="row">
             <div class="col text-center">
                 <h1 id="title">
@@ -17,7 +13,7 @@
                 </h1>
             </div>
         </div>
-        <div class="alert alert-success fade" id = "user_success_alert" role="alert">
+        <div class="alert alert-success fade w-50" id="user_success_alert" role="alert" style="z-index: z">
             <strong id = "alert_strong">Success!</strong> <span id = "alert_message">You can go to the <a href="#" class="alert-link" id = "alert_href">survey</a>.</span>
             <button type="button" class="close" id="alert_btn" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -90,13 +86,8 @@
 
 
 {% block extended_js %}
-    <script src="https://code.jquery.com/jquery-3.3.1.js"
-            integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
             integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
-            crossorigin="anonymous"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
-            integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <script src="/static/js/create_vote.js"></script>

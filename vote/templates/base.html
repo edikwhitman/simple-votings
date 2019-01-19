@@ -17,14 +17,15 @@
 
     <body>
         {% include 'header.html' %}
-        <!--main role="main" class="container mx-auto"-->
 		
-		<div class="SV">
+        <main role="main" class="container mx-auto">
+
 			{% block content %}
 			{% endblock %}
-		</div>
-		
+
         </main>
+
+
         {% include 'footer.html' %}
 
         <!--BASE JS-->

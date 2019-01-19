@@ -24,17 +24,17 @@
         {% endfor %}
     {% endif %}
 
-<form method="POST">
+<form method="POST" class="w-50 mt-3">
     {% csrf_token %}
-    <label class="h4 float-left">{{ form.link.label }}</label>
+    <label class="h4">{{ form.link.label }}</label>
     {{ form.link }}
     <br><br>
-    <label class="h4 float-left">{{ form.text.label }}</label>
+    <label class="h4">{{ form.text.label }}</label>
     {{ form.text }}
-    <input type="submit" class="btn btn-danger mt-2 float-left" value="Отправить">
+    <input type="submit" class="btn btn-danger mt-2" value="Отправить">
 </form>
 
-<a href="{% url 'report_status' %}" class="btn btn-primary float-right mt-2">Ваши жалобы</a>
+<a href="{% url 'report_status' %}" style="font-size: x-large" class="mt-2">Ваши жалобы</a>
 
 {% endblock %}
 

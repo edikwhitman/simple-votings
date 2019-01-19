@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<div class="conteiner w-50">
     <h1 class="danger">Page not found (404)</h1>
     <h2 class="mt-5">Sorry, we can't find this page :(</h2>
     <br>
     <h3><a href="{% url 'index' %}">Start page</a></h3>
+</div>
 {% endblock %}
