@@ -29,11 +29,14 @@ urlpatterns = [
     path('report_status/', views.report_status, name="report_status"),
 
     path('create_vote/', views.create_vote, name="create_vote"),
-    path('vote/', views.vote),
+    path('vote/', views.vote, name='vote'),
     path('search_vote/', views.search_page, name="search_vote"),
-    url(r'^vote/(?P<pk>[\w\d-]+)$', views.vote, name='vote'),
+    url(r'^vote/(?P<pk>[\w\d-]+)$', views.vote),
 
     path('login/', auth_views.LoginView.as_view(), name="login"),
     path('logout/', auth_views.LogoutView.as_view(), name="logout"),
     path('sign_up/', views.sign_up, name="sign_up"),
+
+    path('contacts/', views.contacts, name="contacts"),
+    path('support/', views.support, name="support"),
 ]

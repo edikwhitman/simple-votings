@@ -239,3 +239,15 @@ def report_status(request):
     context['reports'] = ReportModel.objects.filter(author=request.user)
 
     return render(request, 'report_status.html', context)
+
+
+def contacts(request):
+    context = f_m.get_base_context(request)
+
+    return render(request, 'contact.html', context)
+
+
+def support(request):
+    context = f_m.get_base_context(request)
+
+    return render(request, 'support.html', context)

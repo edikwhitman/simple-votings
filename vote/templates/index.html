@@ -1,8 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="w-75 mt-5 h3">
-    <p>Добро пожаловать на главную страницу проекта</p>
-    <p>Сейчас у нас: {{ current_time }}</p>
+<div class="mt-5 h3" style="width: 70%">
+    <p class="h1">Добро пожаловать!</p>
+    <p>Этот проект создан для быстрого создания голосований и легкого голосования</p>
+    <p>Начните прямо сейчас!</p>
+    <a class="btn btn-outline-danger" href="{% url 'create_vote' %}">Создать голосование</a>
+    <a class="btn btn-outline-danger" href="{% url 'vote' %}">Проголосовать!</a>
 </div>
 {% endblock %}

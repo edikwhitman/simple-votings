@@ -26,11 +26,17 @@ footer {
     width: 100%;
 }
 
-.header-z {
+.header-z > a {
 	position: relative;
 	font-size: 25px;
 	left: 25%;
 	top: 80px;
+	color: white !important;
+	text-decoration: none;
+}
+
+.header-z > a:hover {
+    text-decoration: none;
 }
 
 .header-b {
