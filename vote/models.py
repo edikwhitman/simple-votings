@@ -2,6 +2,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.conf import settings
 
+
 # Create your models here.
 
 
@@ -20,6 +21,10 @@ class VoteModel(models.Model):
     )
 
     type = models.CharField(max_length=1, choices=TYPES, default='o')
+
+    closing_time = models.DateTimeField(blank=True)
+
+    edited = models.BooleanField(default=False)
 
     def __str__(self):
         return self.question

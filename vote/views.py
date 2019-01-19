@@ -5,9 +5,9 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from vote.forms import SignInForm, ReportForm
 from django.contrib.auth.models import User
-
+import hashlib
 from vote.models import ReportModel, VoteModel, CheckedVoting
-import vote.functions as f_m   # Вспомогательные функции. Вынесены для сокращения кода в views.py
+import vote.functions as f_m  # Вспомогательные функции. Вынесены для сокращения кода в views.py
 
 
 def not_found(request):
@@ -43,39 +43,38 @@ def vote(request, pk=''):
 
                 if request.method == 'POST' and not context['done']:
                     checked = list(map(int, request.POST.getlist('form')))
-                    counts = list(map(int, v.vote_counts.split(';')))
+                    counts = list(map(int, v.vote_counts.split('\x06')))
 
                     for i in checked:
-                        counts[i-1] += 1
+                        counts[i - 1] += 1
 
-                    v.vote_counts = ';'.join(list(map(str, counts)))
+                    v.vote_counts = '\x06'.join(list(map(str, counts)))
                     v.save()
 
                     context['done'] = True
 
                     CheckedVoting(user=User.objects.filter(username=request.user)[0], voting_id=v).save()
 
-            options = v.options.split(';')
-            percents = list(map(int, v.vote_counts.split(';')))
+            options = v.options.split('\x06')
+            percents = list(map(int, v.vote_counts.split('\x06')))
             options_sum = sum(percents)
-
             if options_sum == 0:
                 for i in range(len(percents)):
                     percents[i] = 0
             else:
                 x = 100
-                for i in range(len(percents)-1):
+                for i in range(len(percents) - 1):
                     if percents[i] != 0:
-                        percents[i] = int(percents[i]/options_sum*100)
+                        percents[i] = int(percents[i] / options_sum * 100)
                         if percents[i] == 0:
                             percents[i] = 1
                         x -= percents[i]
-                percents[len(percents)-1] = x
+                percents[len(percents) - 1] = x
 
             options_fin = list()
 
             for i in range(len(options)):
-                options_fin.append({'option': options[i], 'percent': percents[i], 'index': i+1})
+                options_fin.append({'option': options[i], 'percent': percents[i], 'index': i + 1})
 
             context['options'] = options_fin
             context['percents'] = percents
@@ -89,11 +88,26 @@ def vote(request, pk=''):
         return HttpResponseRedirect('/search_vote/')
 
 
+def fill_votes_db(question, options, type, dt, ref, vote_counts):
+    db = VoteModel(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts)
+    db.save()
+
+
 @login_required
 def create_vote(request):
     context = f_m.get_base_context(request)
     context['title'] = 'Создание голосования'
-
+    if request.is_ajax():
+        print("Get Post Request")
+        question = request.POST.get('question', 0)
+        options = request.POST.get('options', 0)
+        type = request.POST.get('type', 0)
+        vote_counts = request.POST.get('vote_counts', 0)
+        dt = datetime.datetime.strptime(request.POST.get('date') + " " + request.POST.get('time'), '%Y-%m-%d %H:%M')
+        hash_link = request.POST.get('hash_link', 0)
+        fill_votes_db(question, options, type, dt, hash_link, vote_counts)
+    else:
+        print("No Request")
     return render(request, 'create_vote.html', context)
 
 
