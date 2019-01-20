@@ -93,6 +93,26 @@ def fill_votes_db(question, options, type, dt, ref, vote_counts):
     db = VoteModel(question=question, options=options, type=type,
                    closing_time=dt, ref=ref, vote_counts=vote_counts, creation_time=datetime.datetime.now())
     db.save()
+	
+	
+@login_required
+def profile(request):
+    context = f_m.get_base_context(request)
+    context['title'] = 'Профиль'
+    user = User.objects.filter(username=request.user)[0]
+    end = ['.jpg', '.png', '.gif', '.jpeg']
+    Image = {'have': False, 'src': 'none'}
+    for i in end:
+        if path.exists('static/img_profile/' + str(user) + i):
+            Image['have'] = True
+            Image['src'] = 'img_profile/' + str(user) + i
+        else:
+            Image['have'] = False
+        if Image['have']:
+            break
+    context['image'] = Image
+
+    return render(request, 'profile.html', context)
 
 
 @login_required
