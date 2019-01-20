@@ -7,41 +7,37 @@ body {
 	background: #323232 !important;
 }
 
-header {
-	background:#323232;
-	line-height:25px;
-	height: 100px;
-	color: #fff;
-	width: 100%
-}
-
-.header-z > a {
-	position: relative;
-	font-size: 25px;
-	left: 25%;
-	top: 80px;
-	color: white !important;
-	text-decoration: none;
-}
-
-.header-z > a:hover {
-    text-decoration: none;
-}
-
-.header-b {
-	position: absolute;
-	right: 25%;
-	top: 70px;
-}
-
 main {
 	position: relative;
-	top: 10%;
-	left: 15%;
 	color: #fff;
-	width: 30%;
 	padding-bottom: 90px;
 	padding-top: 50px;
+}
+
+/*---header---*/
+
+header {
+	margin-top: 48px;
+}
+
+.header-title{
+	font-size: 25px;
+	color: white !important;
+	text-decoration: none;
+	margin: auto 0px; !important;
+}
+
+.header-title:hover {
+	text-decoration: none !important;
+	color: #fff;
+}
+
+.header-btn{
+	padding: 4px 25px !important;
+	margin: 0px 2px !important;
+	font-size: 20px !important;
+	border: 2px solid !important;
+	border-radius: 8px !important;
 }
 
 /*---footer---*/
@@ -68,4 +64,10 @@ footer {
 .report {
 	padding: 0px 20px !important;
 	font-size: 20px !important;
+}
+
+
+@media (min-width: 1200px)
+.container {
+    max-width: 960px important;
 }
