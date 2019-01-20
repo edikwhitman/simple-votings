@@ -257,6 +257,7 @@ def support(request):
 @login_required
 def my_votings(request):
     context = f_m.get_base_context(request)
+    context['title'] = 'My votings'
 
     if VoteModel.objects.filter(creator=User.objects.filter(username=request.user)[0]):
         context['votings'] = VoteModel.objects.filter(creator=User.objects.filter(username=request.user)[0])
@@ -267,6 +268,7 @@ def my_votings(request):
 @login_required
 def votings_i_answered(request):
     context = f_m.get_base_context(request)
+    context['title'] = 'Votings i answered'
 
     if CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0]):
         context['votings'] = CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0])
@@ -277,6 +279,7 @@ def votings_i_answered(request):
 @login_required
 def profile(request):
     context = f_m.get_base_context(request)
+    context['title'] = 'Profile'
 
     return render(request, 'profile.html', context)
 
@@ -284,6 +287,7 @@ def profile(request):
 @login_required
 def profile_edit(request):
     context = f_m.get_base_context(request)
+    context['title'] = 'Edit profile'
 
     user = User.objects.filter(username=request.user)[0]
     if request.method == 'POST':
