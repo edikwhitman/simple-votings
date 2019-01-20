@@ -99,6 +99,7 @@ def vote(request, pk=''):
             context['percents'] = percents
             context['options_sum'] = options_sum
             context['vote'] = v
+            context['can_edit'] = request.user.id == v.creator_id
 
             return render(request, 'vote.html', context)
         else:
@@ -106,6 +107,11 @@ def vote(request, pk=''):
     else:
         return HttpResponseRedirect('/search_vote/')
 
+
+def update_votes_db(question, options, type, dt, ref, vote_counts):
+    db = VoteModel.objects.filter(ref=ref)
+    db.update(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts,
+                  edited=True)
 
 def fill_votes_db(question, options, type, dt, ref, vote_counts):
     db = VoteModel(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts)
@@ -115,8 +121,24 @@ def fill_votes_db(question, options, type, dt, ref, vote_counts):
 @login_required
 def create_vote(request):
     context = f_m.get_base_context(request)
-    context['title'] = 'Создание голосования'
-    if request.is_ajax():
+    context['title'] = 'Create a poll'
+    if len(request.GET) > 0:
+        if VoteModel.objects.get(ref = request.GET.get('ref', 0)).creator_id != request.user.id:
+            raise PermissionError
+        context['title'] = 'Edit a poll'
+        print("Ok, get")
+        ref = request.GET.get('ref', 0)
+        db = VoteModel.objects.get(ref=ref);
+        context['question'] = db.question
+        context['type'] = db.type
+        context['ref'] = db.ref
+        context['options'] = db.options
+        context['vote_counts'] = db.vote_counts
+        context['closing_date'] = db.closing_time.strftime("%Y-%m-%d")
+        context['closing_time'] = db.closing_time.strftime("%H:%M")
+        context['edit'] = '1'
+    elif len(request.POST) > 0:
+        print("Ok, post")
         print("Get Post Request")
         question = request.POST.get('question', 0)
         options = request.POST.get('options', 0)
@@ -124,7 +146,10 @@ def create_vote(request):
         vote_counts = request.POST.get('vote_counts', 0)
         dt = datetime.datetime.strptime(request.POST.get('date') + " " + request.POST.get('time'), '%Y-%m-%d %H:%M')
         hash_link = request.POST.get('hash_link', 0)
-        fill_votes_db(question, options, type, dt, hash_link, vote_counts)
+        if len(VoteModel.objects.filter(ref = hash_link)) and VoteModel.objects.get(ref = hash_link).creator_id == request.user.id :
+            update_votes_db(question, options, type, dt, hash_link, vote_counts)
+        else:
+            fill_votes_db(question, options, type, dt, hash_link, vote_counts)
     else:
         print("No Request")
     return render(request, 'create_vote.html', context)

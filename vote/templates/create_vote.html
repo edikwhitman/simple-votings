@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block extended_css %}
+    <meta http-equiv="pragma" content="no-cache">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
           integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
@@ -13,12 +14,12 @@
         <div class="row">
             <div class="col text-center">
                 <h1 id="title">
-                    Creating a poll
+                    {{ title }}
                 </h1>
             </div>
         </div>
-        <div class="alert alert-success fade" id = "user_success_alert" role="alert">
-            <strong id = "alert_strong">Success!</strong> <span id = "alert_message">You can go to the <a href="#" class="alert-link" id = "alert_href">survey</a>.</span>
+        <div class="alert alert-danger fade" id = "user_success_alert" role="alert">
+            <strong id = "alert_strong">Oops...</strong> <span id = "alert_message">Something went wrong!</span>
             <button type="button" class="close" id="alert_btn" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -28,20 +29,20 @@
                 <div class="form-group">
                     <label class="p_label">Question: </label>
                     <input type="text" class="text_field form-control" id="question_field"
-                           placeholder="Specify the question" required>
+                           placeholder="Specify the question" value="{{ question }}" required>
                 </div>
                 <div class="form-group clearfix">
                     <label class="p_label types_label float-left">Type of
                         responses: </label>
                     <br>
                     <div class="btn-group btn-group-toggle float-left" data-toggle="buttons">
-                        <label class="btn btn-secondary active">
+                        <label class="btn btn-secondary radios-btn active" id = "o">
                             <input type="radio" name="options" id="option1" autocomplete="off" checked> 1 of the list
                         </label>
-                        <label class="btn btn-secondary">
+                        <label class="btn btn-secondary radios-btn" id = "s">
                             <input type="radio" name="options" id="option2" autocomplete="off"> Several of the list
                         </label>
-                        <label class="btn btn-secondary">
+                        <label class="btn btn-secondary radios-btn" id = "d">
                             <input type="radio" name="options" id="option3" autocomplete="off"> Rating
                         </label>
                     </div>
@@ -52,11 +53,11 @@
                     <label class="p_label">Open to: </label>
                     <label class="p_label float-left"
                            style="width: 60px; margin-top: 7px;margin-right: 5px;">Date: </label>
-                    <input name="datetime" id="datepicker" max="9999-12-31" type="date" class="text_field form-control float-left"
+                    <input name="datetime" id="datepicker" value="{{ closing_date }}" min="1000-01-01" max="9999-12-31" type="date" class="text_field form-control float-left"
                            required style="width: 200px;">
                     <label class="p_label float-left"
                            style="width: 60px; margin-left: 20px; margin-top: 7px; margin-right: 5px;">Time: </label>
-                    <input name="datetime" id="timepicker" type="time" class="text_field form-control float-left"
+                    <input name="datetime" id="timepicker" value="{{ closing_time }}" type="time" class="text_field form-control float-left"
                            required style="width: 150px;">
                 </div>
 
@@ -66,21 +67,21 @@
                         <div id="answer_element_0">
                             <input type="text"
                                    class="answers_fields text_field form-control float-left answers_elements"
-                                   id="formGroupAnswerInput" placeholder="Specify the answer" required>
+                                   id="formGroupAnswerInput" placeholder="Specify the answer" value="" required>
                             <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_0"
                                     delete_number="0"><i class="fas fa-trash"></i></button>
                         </div>
                         <div id="answer_element_1">
                             <input type="text"
                                    class="answers_fields text_field form-control float-left answers_elements"
-                                   id="formGroupAnswerInput" placeholder="Specify the answer" required>
+                                   id="formGroupAnswerInput" placeholder="Specify the answer" value="" required>
                             <button type="button" class="btn btn-danger btn_delete answers_elements" id="del_btn_1"
                                     delete_number="1"><i class="fas fa-trash"></i></button>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <button type="button" class="btn btn-danger" id="btn_add"><i class="fas fa-plus"></i></button>
+                    <button type="button" class="btn btn-danger" id="btn_add" onclick="add_new_answer_field('')"><i class="fas fa-plus"></i></button>
                     <button type="submit" class="btn btn-danger" id="btn_save"><i class="fas fa-save"></i></button>
                 </div>
             </form>
@@ -101,8 +102,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/3.1.9-1/crypto-js.js"></script>
     <script src="/static/js/create_vote.js"></script>
     <script>
-    let success_alert_message = alert_message.innerHTML;
-    let error_alert_message = "Something went wrong!"
+    let hash = '';
     alert_btn.onclick = function(){
         user_success_alert.classList.remove("show");
         user_success_alert.style.visibility = "hidden";
@@ -113,16 +113,20 @@
                 let time = document.getElementById("timepicker").value;
                 let question = document.getElementById("question_field").value;
                 let options = document.getElementsByClassName("answers_fields");
-                let vote_counts = "";
+                let vote_counts_str = "";
                 let str_options = "";
                 for (let i = 0; i < options.length; i++) {
-                    str_options += options[i].value
-                    vote_counts += "0"
-                    if (i != options.length - 1) {
+                    str_options += options[i].value;
+                    if (i != options.length - 1)
                         str_options += String.fromCharCode(6);
-                        vote_counts += String.fromCharCode(6);
-                    }
+
                 }
+                for (let i = 0; i < vote_counts.length; i++)
+                    if(vote_counts[i] > -1)
+                        vote_counts_str += vote_counts[i].toString() + String.fromCharCode(6);
+
+
+
                 let type = -1;
                 var radios = document.getElementsByName('options');
                 for (let i = 0; i < radios.length; i++) {
@@ -132,9 +136,8 @@
                     }
                 }
 
-                let hash = CryptoJS.MD5(question + str_options + type + (new Date().getDate()).toString() + (new Date().getTime()).toString() + toString(date) + toString(time)).toString();
-
-                console.log();
+                if(hash.length <= 0)
+                    hash = CryptoJS.MD5(question + str_options + type + (new Date().getDate()).toString() + (new Date().getTime()).toString() + toString(date) + toString(time)).toString();
 
                 $.ajax({
                     type: "POST",
@@ -146,29 +149,45 @@
                         'type': ['o', 's', 'd'][type],
                         'date': date,
                         'time': time,
-                        'vote_counts': vote_counts,
+                        'vote_counts': vote_counts_str.slice(0, -1),
                         'hash_link': hash,
                     },
                     success: function () {
-                        alert_message.innerHTML = success_alert_message;
-                        alert_strong.innerHTML = "Success!";
-                        user_success_alert.classList.add("show");
-                        user_success_alert.style.visibility = "visible";
-                        user_success_alert.classList.remove("alert-danger");
-                        user_success_alert.classList.add("alert-success");
-                        alert_href.href = window.location.protocol + "//" +  window.location.host + "/vote/" + hash;
+                        window.location = '/vote/'+hash;
                     },
                     error: function () {
-                        alert_message.innerHTML = error_alert_message;
-                        alert_strong.innerHTML = "Oops...";
                         user_success_alert.classList.add("show");
                         user_success_alert.style.visibility = "visible";
-                        user_success_alert.classList.remove("alert-success");
-                        user_success_alert.classList.add("alert-danger");
                     }
                 });
                 return false;
             });
         });
+
+    if ('{{ edit }}' == '1'){
+        console.log("edit");
+        let arr = document.getElementsByClassName("radios-btn");
+        for(let i = 0; i < arr.length; i++) {
+            arr[i].classList.remove("active");
+            arr[i].children[0].removeAttribute("checked");
+        }
+        document.getElementById('{{ type }}').classList.add("active");
+        document.getElementById('{{ type }}').children[0].setAttribute("checked", true);
+        let options = '{{ options }}'.split(String.fromCharCode(6));
+        let str_vote_counts = '{{ vote_counts }}'.split(String.fromCharCode(6));
+        console.log(str_vote_counts);
+        console.log (options);
+        for (let i = 0; i < options.length; i++){
+            if (i < fields_count){
+                document.getElementById("answer_element_" + i.toString()).children[0].value = options[i];
+            }
+            else{
+                add_new_answer_field(options[i]);
+            }
+            vote_counts[i] = parseInt(str_vote_counts[i]);
+        }
+        hash = '{{ ref }}';
+
+    }
     </script>
 {% endblock %}

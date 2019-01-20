@@ -70,6 +70,11 @@
 						<button type="button" class="btn btn-outline-light vote_share">Share</button>
 					</div>
 				</form>
+            {% if can_edit %}
+                <form>
+                    <button type="button" class="btn btn-outline-light vote_share" id = "edit_poll_btn" onclick="window.location = '{% url 'create_vote' %}?ref={{ vote.ref }}';">Edit</button>
+                </form>
+            {% endif %}
 			</div>
 		</div>
 		<footer>
