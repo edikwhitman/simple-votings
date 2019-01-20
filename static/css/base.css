@@ -24,7 +24,7 @@ header {
 	font-size: 25px;
 	color: white !important;
 	text-decoration: none;
-	margin: auto 0px; !important;
+	margin: auto 0px !important;
 }
 
 .header-title:hover {
@@ -43,7 +43,7 @@ header {
 /*---footer---*/
 
 footer {
-	background:#2A2A2A;
+	background: #2A2A2A;
 	position: fixed;
 	bottom: 0;
 	width: 100%;
@@ -66,8 +66,7 @@ footer {
 	font-size: 20px !important;
 }
 
-
 @media (min-width: 1200px)
 .container {
-    max-width: 960px important;
+    max-width: 960px !important;
 }

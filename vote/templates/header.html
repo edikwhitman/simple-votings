@@ -1,12 +1,12 @@
 <header class="container">
-    <div class="nav-scroller py-1 mb-2">
+    <div class="nav-scroller">
         <nav class="nav d-flex justify-content-between">
-            <a class="p-2 header-title" href="/">simplevotings.org</a>
-            <div class="p-2">
+            <a class="header-title " href="/">simplevotings.org</a>
+            <div>
                 <a href="{% url 'create_vote' %}" class="header-btn btn btn-outline-light">Створити опитування</a>
 
                 {% if request.user.is_authenticated %}
-                <button class="header-btn btn btn-outline-light ml-1 dropdown-toggle" type="button"
+                <button class="header-btn btn btn-outline-light dropdown-toggle" type="button"
                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Профіль
                 </button>
