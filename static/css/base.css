@@ -5,9 +5,7 @@ html{
 
 body {
 	background: #323232 !important;
-	font-family: calibri !important;
 }
-
 
 header {
 	background:#323232;
@@ -15,15 +13,6 @@ header {
 	height: 100px;
 	color: #fff;
 	width: 100%
-}
-
-footer {
-	background:#2A2A2A;
-	height:50px;
-	position: fixed;
-    left: 0;
-    bottom: 0;
-    width: 100%;
 }
 
 .header-z > a {
@@ -54,14 +43,29 @@ main {
 	padding-bottom: 90px;
 	padding-top: 50px;
 }
-	
-.footer-c {
-	position: relative;
-	top: 7px;
-	left: 25%;
+
+/*---footer---*/
+
+footer {
+	background:#2A2A2A;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 4px;
+	font-size: 20px !important;
 }
 
-.footer-c > a {
+.footer-link {
 	color: #707070;
-	padding: 20px;
+	padding: 0px 20px;
+}
+
+.footer-link:hover {
+	text-decoration: none !important;
+	color: #EAEAEA;
+}
+
+.report {
+	padding: 0px 20px !important;
+	font-size: 20px !important;
 }

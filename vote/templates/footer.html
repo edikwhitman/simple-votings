@@ -1,9 +1,10 @@
-<footer>
-    <div class="footer-c">
+<footer class="footer">
+    <div class="container">
         <button type="button" onclick="window.location='{% url 'report' %}?ref={{vote.ref}}'"
-                class="btn btn-outline-danger">report a poll</button>
-        <a href="{% url 'support' %}">support</a>
-        <a href="{% url 'index' %}">about</a>
-        <a href="{% url 'contacts' %}">contact</a>
+                class="report btn btn-outline-danger">report a poll
+        </button>
+        <a class="footer-link" href="{% url 'support' %}">support</a>
+        <a class="footer-link" href="{% url 'index' %}">about</a>
+        <a class="footer-link" href="{% url 'contacts' %}">contact</a>
     </div>
 </footer>
