@@ -3,24 +3,28 @@
         <nav class="nav d-flex justify-content-between">
             <a class="p-2 header-title" href="/">simplevotings.org</a>
             <div class="p-2">
-                <a href="{% url 'create_vote' %}" class="header-btn btn btn-outline-light">Створити опитування</a>
+                <a href="{% url 'create_vote' %}" class="header-btn btn btn-outline-light">Создать опрос</a>
 
                 {% if request.user.is_authenticated %}
                 <button class="header-btn btn btn-outline-light ml-1 dropdown-toggle" type="button"
                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Профіль
+                    Профиль
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="toggle">
-                    <a class="btn btn-outline-light dropdown-item" href="{% url 'my_votings' %}">Мої голосування</a>
+					<a class="btn btn-outline-light dropdown-item" href="{% url 'profile' %}">Профиль</a>
                     <div class="dropdown-divider"></div>
-                    <a class="btn btn-outline-light dropdown-item" href="{% url 'votings_i_answered' %}">Де я голосував</a>
+					<a class="btn btn-outline-light dropdown-item" href="{% url 'profile_edit' %}">Редактировать профиль</a>
                     <div class="dropdown-divider"></div>
-                    <a class="btn btn-outline-light dropdown-item" href="{% url 'profile_edit' %}">Редагування профіля</a>
+                    <a class="btn btn-outline-light dropdown-item" href="{% url 'my_votings' %}">Мои голосования</a>
                     <div class="dropdown-divider"></div>
-                    <a class="btn btn-outline-light dropdown-item" href="{% url 'logout' %}">Вихід</a>
-                </div>
+                    <a class="btn btn-outline-light dropdown-item" href="{% url 'votings_i_answered' %}">Где я голосовал</a>
+                    <div class="dropdown-divider"></div>
+					<div class="logout">
+						<a class="btn btn-outline-light dropdown-item" href="{% url 'logout' %}">Выход</a>
+					</div>
+				</div>
                 {% else %}
-                <a href="{% url 'login' %}" class="btn btn-outline-light">Вхід</a>
+                <a href="{% url 'login' %}" class="btn btn-outline-light">Вход</a>
                 {% endif %}
             </div>
         </nav>
