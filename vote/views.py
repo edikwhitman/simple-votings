@@ -113,8 +113,8 @@ def update_votes_db(question, options, type, dt, ref, vote_counts):
     db.update(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts,
                   edited=True)
 
-def fill_votes_db(question, options, type, dt, ref, vote_counts):
-    db = VoteModel(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts)
+def fill_votes_db(question, options, type, dt, ref, vote_counts, user_id):
+    db = VoteModel(question=question, options=options, type=type, closing_time=dt, ref=ref, vote_counts=vote_counts, creator_id=user_id)
     db.save()
 
 
@@ -149,7 +149,7 @@ def create_vote(request):
         if len(VoteModel.objects.filter(ref = hash_link)) and VoteModel.objects.get(ref = hash_link).creator_id == request.user.id :
             update_votes_db(question, options, type, dt, hash_link, vote_counts)
         else:
-            fill_votes_db(question, options, type, dt, hash_link, vote_counts)
+            fill_votes_db(question, options, type, dt, hash_link, vote_counts, request.user.id)
     else:
         print("No Request")
     return render(request, 'create_vote.html', context)
