@@ -124,7 +124,7 @@ def create_vote(request):
     context['title'] = 'Create a poll'
     if len(request.GET) > 0:
         if VoteModel.objects.get(ref = request.GET.get('ref', 0)).creator_id != request.user.id:
-            raise PermissionError
+            return HttpResponseRedirect("/404/")
         context['title'] = 'Edit a poll'
         print("Ok, get")
         ref = request.GET.get('ref', 0)
