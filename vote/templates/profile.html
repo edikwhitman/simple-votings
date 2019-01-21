@@ -9,7 +9,8 @@
 
 <div class="profile">
 	<div class="Image">
-		{% if image.have == False %}
+        {% load static %}
+		{% if not image.have %}
 			<img class="img_icon" src="{% static 'img_profile/not_icon.jpg' %}"/>
 		{% else %}
 			<img class="img_icon" src="{% static image.src %}"/>

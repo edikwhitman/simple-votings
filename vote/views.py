@@ -1,4 +1,5 @@
 import datetime
+from os import path
 
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.hashers import check_password
@@ -93,8 +94,8 @@ def fill_votes_db(question, options, type, dt, ref, vote_counts):
     db = VoteModel(question=question, options=options, type=type,
                    closing_time=dt, ref=ref, vote_counts=vote_counts, creation_time=datetime.datetime.now())
     db.save()
-	
-	
+
+
 @login_required
 def profile(request):
     context = f_m.get_base_context(request)
@@ -294,14 +295,6 @@ def votings_i_answered(request):
         context['votings'] = CheckedVoting.objects.filter(user=User.objects.filter(username=request.user)[0])
 
     return render(request, 'votings_i_answered.html', context)
-
-
-@login_required
-def profile(request):
-    context = f_m.get_base_context(request)
-    context['title'] = 'Profile'
-
-    return render(request, 'profile.html', context)
 
 
 @login_required
