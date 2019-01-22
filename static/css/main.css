@@ -9,11 +9,10 @@ body {
 
 .SV {
 	position: relative;
-	top: 100px;
+	top: 80px;
 	color: #fff;
-	width: 30%;
 	padding-bottom: 90px;
-	margin: 0 auto;
+
 }
 
 .FIXED {
