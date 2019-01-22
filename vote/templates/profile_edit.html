@@ -27,7 +27,7 @@
 	<input type="submit" class="btn btn-primary">
 </form>
 <h2>Смена пароля</h2>
-<form method="POST" action="{% url 'profile_edit' %}" class="form-group mt-3" style="width: 35%">
+<form method="POST" action="{% url 'profile_edit' %}" class="form-group mt-3" style="width: 36%">
 	{% csrf_token %}
 	<label for="old_pswd" class="h4">Старый пароль:</label>
 	<input type="password" class="form-group-item float-right" id="old_pswd" required name="old_pswd">
