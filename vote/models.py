@@ -8,7 +8,7 @@ from django.conf import settings
 
 class VoteModel(models.Model):
     creator = models.ForeignKey(to=User, on_delete=models.CASCADE, default=1)
-    creation_time = models.DateTimeField(blank=True)
+    creation_time = models.DateTimeField(blank=False, null=True)
     ref = models.CharField(max_length=500, default='')
     question = models.CharField(max_length=100, default='')
     options = models.CharField(max_length=500, default='')
@@ -22,7 +22,7 @@ class VoteModel(models.Model):
 
     type = models.CharField(max_length=1, choices=TYPES, default='o')
 
-    closing_time = models.DateTimeField(blank=True)
+    closing_time = models.DateTimeField(blank=False, null=True)
 
     edited = models.BooleanField(default=False)
 

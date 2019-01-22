@@ -47,7 +47,11 @@
 	<body>
 		{% include 'header.html' %}
 		<div class="SV">
-			<h1>{{ vote.question }}</h1>
+			<h1>{{ vote.question }}
+                {% if can_edit %}
+                    <a class="far fa-edit" onclick="window.location = '{% url 'create_vote' %}?ref={{ vote.ref }}';" style="color: white; margin-left: 20px; cursor: pointer;"></a>
+                {% endif %}
+            </h1>
 			<div class="kEk">
 				<form action="" method="POST">
 					{% csrf_token %}

@@ -86,6 +86,7 @@ form{
 	width: 500px;
 	left: 50%;
 	margin-left: -250px;
+	visibility: hidden;
 }
 
 input[type="date" i], input[type="time" i]{
