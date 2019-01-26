@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1>Ваши жалобы:</h1>
+
+{% if reports %}
+<table class="table table-striped w-75 mt-3">
+    <thead>
+    <tr>
+        <td scope="col">Текст жалобы</td>
+        <td scope="col">Ссылка</td>
+        <td scope="col">Статус</td>
+    </tr>
+    </thead>
+    <tbody>
+    {% for report in reports %}
+    <tr>
+        <td>{{ report.text }}</td>
+        <td>{{ report.link }}</td>
+        <td
+        {% if report.status == 'c' %}
+        style='background-color: green;
+        {% elif report.status == 'u' %}
+        style='background-color: red;
+        {% endif %}
+        text-align: center;'
+        >{{ report.get_status_display }}
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>У вас нет еще ни одной жалобы. <a href="{% url 'report' %}">Cоздать</a></p>
+{% endif %}
+{% endblock %}

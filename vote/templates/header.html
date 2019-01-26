@@ -1,0 +1,32 @@
+<header class="container">
+    <div class="nav-scroller">
+        <nav class="nav d-flex justify-content-between">
+            <a class="header-title" href="/">simplevotings.org</a>
+            <div>
+                <a href="{% url 'create_vote' %}" class="header-btn btn btn-outline-light">Создать опрос</a>
+
+                {% if request.user.is_authenticated %}
+                <button class="header-btn btn btn-outline-light dropdown-toggle" type="button"
+                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Профиль
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton" id="toggle">
+					<a class="btn btn-outline-light dropdown-item" href="{% url 'profile' %}">Профиль</a>
+                    <div class="dropdown-divider"></div>
+					<a class="btn btn-outline-light dropdown-item" href="{% url 'profile_edit' %}">Редактировать профиль</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="btn btn-outline-light dropdown-item" href="{% url 'my_votings' %}">Мои голосования</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="btn btn-outline-light dropdown-item" href="{% url 'votings_i_answered' %}">Где я голосовал</a>
+                    <div class="dropdown-divider"></div>
+					<div class="logout">
+						<a class="btn btn-outline-light dropdown-item" href="{% url 'logout' %}">Выход</a>
+					</div>
+				</div>
+                {% else %}
+                <a href="{% url 'login' %}" class="header-btn btn btn-outline-light">Вход</a>
+                {% endif %}
+            </div>
+        </nav>
+    </div>
+</header>

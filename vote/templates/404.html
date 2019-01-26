@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="danger">404 Page not found</h1>
+<h2 class="my-5">Sorry, we can't find this page :(</h2>
+<br>
+<a class="btn btn-outline-light btn-lg" href="{% url 'index' %}">go to main page</a>
+
+{% endblock %}

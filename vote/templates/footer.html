@@ -1,0 +1,10 @@
+<footer class="footer">
+    <div class="container">
+        <button type="button" onclick="window.location='{% url 'report' %}?ref={{vote.ref}}'"
+                class="report btn btn-outline-danger">Подать жалобу
+        </button>
+        <a class="footer-link" href="{% url 'support' %}">Помощь</a>
+        <a class="footer-link" href="{% url 'index' %}">Про нас</a>
+        <a class="footer-link" href="{% url 'contacts' %}">Контакты</a>
+    </div>
+</footer>

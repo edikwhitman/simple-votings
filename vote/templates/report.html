@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+    {% if success %}
+        <div class="alert alert-success w-50">
+            Жалоба успешно добавлена
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+            </button>
+        </div>
+    {% endif %}
+
+    <h1>Отправление жалобы</h1>
+
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <span class="btn btn-danger mb-3">{{ error|escape }}</span>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <span class="btn btn-danger mb-3">{{ error|escape }}</span>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" class="w-50 mt-3">
+        {% csrf_token %}
+        <label class="h4">{{ form.link.label }}</label>
+        {{ form.link }}
+        <br><br>
+        <label class="h4">{{ form.text.label }}</label>
+        {{ form.text }}
+        <input type="submit" class="btn btn-danger mt-2" value="Отправить">
+    </form>
+
+    <a href="{% url 'report_status' %}" style="font-size: x-large" class="mt-4">Ваши жалобы</a>
+
+{% endblock %}
+
+
+{% block extended_js %}
+    <script>
+        window.onload = function(){
+            id_link.value='{{ ref }}';
+        }
+    </script>
+{% endblock %}

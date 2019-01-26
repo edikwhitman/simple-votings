@@ -1,0 +1,93 @@
+<html>
+<head>
+    <title>Simple Votings</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'css/main.css' %}"/>
+    <link rel="shortcut icon" href="{% static 'img/favicon.ico' %}" type="image/x-icon">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css"
+          integrity="sha384-GJzZqFGwb1QTTN6wy59ffF1BuGJpLSa9DkKMp0DgiMDm4iYMj70gZWKYbI706tWS" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.js' %}"></script>
+
+    <script>
+			function makeColor(i) {
+				if ((parseInt(i)-2) % 3 == 0)
+					$('#'+i).addClass(" bg-success")
+				if (parseInt(i) % 3 == 0)
+					$('#'+i).addClass(" bg-danger")
+			}
+			$(document).ready (
+				function(){
+					{% for i in options %}
+					makeColor({{i.index}});
+					{% endfor %}
+				}
+			);
+			function d() {
+			    let x = false;
+			    for (let i = 1; i < {{ options|length }}; i++) {
+			        if ($('#customRadioInline'+i).attr("checked") || $('#customCheck'+i).attr("checked"))
+			            x = true;
+			    }
+			}
+			function c() {
+					$('.vote_btn').fadeOut({duration: 300});
+					{% for option in options %}
+					$('#{{option.index}}').css({'width': '{{option.percent}}%'});
+					{% endfor %}
+					$('.hide').css({'visibility':'visible'});
+			}
+			$(function () {
+				$('.vote_btn').click(d);
+			});
+
+
+    </script>
+
+</head>
+<body>
+{% include 'header.html' %}
+<main role="main" class="container">
+    <div class="SV">
+        <h1>{{ vote.question }}
+            {% if can_edit %}
+            <a class="far fa-edit" onclick="window.location = '{% url 'create_vote' %}?ref={{ vote.ref }}';"
+               style="color: white; margin-left: 20px; cursor: pointer;"></a>
+            {% endif %}
+        </h1>
+        <div class="kEk">
+            <form action="" method="POST">
+                {% csrf_token %}
+                {% if vote.type == 'o' or vote.type == 'd' %}
+                {% include 'one.html' %}
+                {% elif vote.type == 's' %}
+                {% include 'many.html' %}
+                {% endif %}
+
+                <div class="btn-vote">
+                    {% if not done %}
+                    <button type="submit" class="btn btn-outline-light vote_btn vote_share"><i class="fas fa-check"></i>
+                        Vote
+                    </button>
+                    {% endif %}
+                </div>
+            </form>
+        </div>
+    </div>
+</main>
+>
+{% include 'footer.html' %}
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+        integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
+        integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

@@ -1,0 +1,39 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+    <h1>Регистрация</h1>
+    <hr>
+    {% for error in errors %}
+        <span class="btn btn-danger mb-3">{{ error }}</span>
+    {% endfor %}
+
+    {% if form.errors %}
+        {% for field in form %}
+            {% for error in field.errors %}
+                <span class="btn btn-danger mb-3">{{ error|escape }}</span>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <span class="btn btn-danger mb-3">{{ error|escape }}</span>
+        {% endfor %}
+    {% endif %}
+
+    <form method="POST" style="width: 40%;">
+        {% csrf_token %}
+        <label class="h4">{{ form.user_name.label }}</label>
+        {{ form.user_name }}
+        <br><br>
+        <label class="h4">{{ form.user_email.label }}</label>
+        {{ form.user_email }}
+        <br><br>
+        <label class="h4">{{ form.password.label }}</label>
+        {{ form.password }}
+        <br><br>
+        <label class="h4">{{ form.password_conf.label }}</label>
+        {{ form.password_conf }}
+        <br><br>
+        <input type="submit" class="btn btn-secondary" value="Зарегистрироваться">
+
+    </form>
+{% endblock %}

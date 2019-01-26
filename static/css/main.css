@@ -1,0 +1,117 @@
+html{
+	overflow-y:auto;
+	overflow-x:hidden;
+}
+
+body {
+	background: #323232 !important;
+}
+
+.SV {
+	position: relative;
+	top: 80px;
+	color: #fff;
+	padding-bottom: 90px;
+
+}
+
+.FIXED {
+	position: relative;
+	bottom: 5px;
+	left: 12px;
+}
+
+.progress-bar {
+	height: 8px;
+	border-radius: 50px !important;
+}
+
+.progress {
+	height: 8px !important;
+	border-radius: 50px !important;
+	background: #323232 !important;
+	width: 400px;
+}
+
+.normal {
+	position: relative;
+	left: 40px;
+	bottom: 23px;
+}
+
+.move {
+	position: relative;
+	left: -4px;
+	bottom: 10px;
+}
+
+.kEk {
+	position: relative;
+	top: 40px;
+}
+
+.fa-check {
+	color: green;
+	font-size: 25px;
+}
+
+.vote_share {
+	font-size: 20px !important;
+}
+
+/*---header---*/
+
+header {
+	margin-top: 48px;
+}
+
+.header-title{
+	font-size: 25px;
+	color: white !important;
+	text-decoration: none;
+	margin: auto 0px !important;
+}
+
+.header-title:hover {
+	text-decoration: none !important;
+	color: #fff;
+}
+
+.header-btn{
+	padding: 4px 25px !important;
+	margin: 0px 2px !important;
+	font-size: 20px !important;
+	border: 2px solid !important;
+	border-radius: 8px !important;
+}
+
+/*---footer---*/
+
+footer {
+	background: #2A2A2A;
+	position: fixed;
+	bottom: 0;
+	width: 100%;
+	padding: 8px;
+	font-size: 20px !important;
+}
+
+.footer-link {
+	color: #707070;
+	padding: 0px 20px;
+}
+
+.footer-link:hover {
+	text-decoration: none !important;
+	color: #EAEAEA;
+}
+
+.report {
+	padding: 2px 20px !important;
+	font-size: 20px !important;
+}
+
+@media (min-width: 1200px)
+.container {
+    max-width: 960px !important;
+}

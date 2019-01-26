@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <h1 class="mt-3">Авторизация</h1>
+    <hr>
+    <form method="POST" style="width: 35%">
+        {% csrf_token %}
+
+        {% if form.errors %}
+            {% for field in form %}
+                {% for error in field.errors %}
+                    <span class="btn btn-danger mb-3">{{ error|escape }}</span>
+                {% endfor %}
+            {% endfor %}
+            {% for error in form.non_field_errors %}
+                <span class="btn btn-danger mb-3">{{ error|escape }}</span>
+            {% endfor %}
+        {% endif %}
+
+        {% if error %}
+        <span class="btn btn-danger mb-3"> {{ error }} </span>
+        {% endif %}
+        <br>
+
+        <label for="id_username" class="h5">Имя пользователя:</label>
+        <div class="float-right">
+            {{ form.username }}
+        </div>
+        <br><br>
+        <label for="id_password" class="h5">Пароль:</label>
+        <div class="float-right">
+            {{ form.password }}
+        </div>
+        <br><br>
+        <input type="submit" class="btn btn-secondary" value="Войти">
+        <br>
+        <a href="{% url 'sign_up' %}">Нет аккаунта? Зарегистрироваться</a>
+
+    </form>
+{% endblock %}
+

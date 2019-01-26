@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Поиск</h1>
+    <hr>
+    <div class="form-group w-75">
+        <label class="h4" for="search_question">Текст вопроса:</label>
+        <input type="text" id="search_question" onchange="get_ref();">
+
+        <label class="h4" for="search_user">Автор:</label>
+        <input type="text" id="search_user" onchange="get_ref();">
+        <a href="/search_vote/" id="search_submit"><button class="btn btn-primary">Поиск</button></a>
+        </div>
+    <hr>
+    {% if mode == 1 %}
+        {% if result > 0 %}
+        {% endif%}
+    {% endif %}
+
+    <ul class="list-group" style="width: 65%; font-size: x-large">
+        {% for voting in votings %}
+        <li class="list-group-item list-group-item-dark my-1">
+            <a href="/vote/{{ voting.ref }}" style="color: #323232"> {{ voting.question }} </a>
+            {% if voting.is_new %}
+            <span class="badge badge-danger ml-2 my-auto">&nbsp;NEW</span>
+            {% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+
+{% endblock %}
+
+{% block extended_js %}
+    {% load static %}
+    <script src="{% static '/js/search/main.js' %}"></script>
+{% endblock %}

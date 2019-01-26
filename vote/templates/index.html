@@ -1,9 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-
-<h1>{{main_header}}</h1>
-<hr>
-<p>Добро пожаловать на главную страницу проекта
-<p>Сейчас у нас: {{ current_time }}</p>
+<div style="text-align: center">
+    <h1 class="my-4">Добро пожаловать!</h1>
+    <h3>Этот проект создан для быcтрого создания<br>голосований и легкого голосования</h3>
+    <h3 class="mb-4">Начать прямо сейчас!</h3>
+    <a class="btn btn-outline-danger btn-lg" href="{% url 'create_vote' %}">Создать голосование</a>
+    <a class="btn btn-outline-danger btn-lg" href="{% url 'vote' %}">Проголосовать!</a>
+</div>
 {% endblock %}

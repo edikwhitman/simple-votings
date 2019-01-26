@@ -1,5 +1,11 @@
 <p>| <b>Меню сайта</b> |
+
 {% for item in menu %}
-<a href="{{ item.link }}">{{ item.text }}</a>&nbsp;|
+    <a href="{{ item.link }}">{{ item.text }}</a>&nbsp;|
 {% endfor %}
+
+{% for item in auth %}
+    <a href="{{ item.link }}">{{ item.text }}</a>&nbsp;|
+{% endfor %}
+
 <hr>
